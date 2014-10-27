@@ -1,0 +1,184 @@
+@import url(http://fonts.googleapis.com/css?family=Lato);
+@import url(http://fonts.googleapis.com/css?family=Josefin+Slab);
+@import url(http://fonts.googleapis.com/css?family=Dancing+Script:700);
+/*%%%%%%%%%%%%%%%%%%%%%%%*/
+html, body{
+	font-family: 'Lato', sans-serif;
+}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
+	font-family: 'Josefin Slab', sans-serif;
+}
+h1{
+	margin:0px;
+	font-size:20px;
+	text-transform: uppercase;
+	padding: 20px 0px 10px 0px;
+	font-weight: bold;
+	/*background-color:#5B9CA2;*/
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	/*text-shadow:1px 2px 5px black;*/
+	/*color:#F5F1D8;*/
+	/*border-bottom: 4px dotted white;*/
+}
+h2{
+	font-size: 18px;
+}
+label{
+	font-weight: 400;
+}
+.error{
+	color:#EB593C;
+	font-weight: 400;
+	font-size: 9pt;
+}
+/*%%%%%%%%%%%%%%%%%%%%%%%*/
+.cms-page{
+	background-image:url('../images/soft_noise.png');
+	background-color:#ABDCD6;
+	padding-top:0px;
+}
+/*%%%%%%%%%%%%%%%%%%%%%%%*/
+.input-success{
+	border:1px solid green !important;
+}
+.input-error{
+	border:1px solid red !important;
+}
+/*%%%%%%%%%%%%%%%%%%%%%%%*/
+.navbar{
+	margin-bottom:0px;
+	border-radius: 0px;
+	-moz-border-radius:0px;
+	-webkit-border-radius:0px;
+}
+.navbar .navbar-brand{
+	padding-left: 50px;
+	background-image: url('../images/logo_bn.png');
+	background-position: left;
+	background-repeat: no-repeat;
+	background-size: 45px 45px;
+	font-family: 'Dancing Script', sans-serif;
+	font-size: 23pt;
+	color:white;
+}
+.navbar .navbar-brand:hover{
+	color:#BDBDBD;
+}
+.navbar-inverse .navbar-nav>li>a{
+	color:white;
+}
+.navbar-inverse .navbar-nav>li>a:hover{
+	color:#BDBDBD;
+}
+.navbar-form{
+	margin-top:11px;
+}
+.navbar #loginForm label#email-error, .navbar #loginForm label#password-error{
+	position: absolute;
+	width:318px;
+	background-color: white;
+	border-radius: 3px;
+	border:1px solid #5B9CA2;
+	padding:5px 10px;
+}
+.navbar #loginForm label#email-error{
+	left: 15px;
+	top: 43px;
+}
+.navbar #loginForm label#password-error{
+	left: 15px;
+	top: 70px;
+}
+/*%%%%%%%%%%%%%%%%%%%%%%%*/
+.messages{
+	margin-bottom: 0px;
+	border-radius: 0px;
+}
+/*%%%%%%%%%%%%%%%%%%%%%%%*/
+.tile{
+	width:95%;
+	background-color: white;
+	margin:0 auto;
+	-webkit-box-shadow: 0 0 6px rgba(0,0,0,0.3);
+	-moz-box-shadow: 0 0 6px rgba(0,0,0,0.3);
+	box-shadow: 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	margin-bottom: 20px;
+	border:1px solid #5B9CA2;
+}
+.tile-title{
+	margin-bottom:20px;
+	padding:10px 0px 10px 10px;
+	border-bottom: 1px solid #D8D8D8;
+	background-color: #EAEAEA;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+.tile-title h2{
+	margin:0px;
+}
+.tile-content{
+	padding: 10px;
+	padding-top: 0px;
+}
+/*%%%%%%%%%%%%%%%%%%%%%%%*/
+.register-page{
+	/*background-color: #5B9CA2;*/
+	background-image:url('../images/register-back.jpg');
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+/*%%%%%%%%%%%%%%%%%%%%%%%*/
+.view-page .form-horizontal .form-group{
+	margin-left:0px;
+	margin-right: 0px;
+}
+.view-page .list-group-item:first-child,
+.view-page .list-group-item:last-child{
+	border-radius: 0px;
+}
+#editUserForm{
+	margin-top: 40px;
+}
+#avatar-img{
+	text-align: center;
+}
+#avatar-img input{
+	margin: 0 auto;
+	width: 200px;
+	margin-top: 20px;
+	margin-bottom: 40px;
+}
+.img-circle{
+	background-color: white;
+	box-shadow: 1px 1px 10px;
+	width: 150px;
+}
+.left-navigation{
+	padding-left: 0px;
+	padding-right: 0px;
+}
+/*%%%%%%%%%%%%%%%%%%%%%%%*/
+footer{
+	padding:25px;
+	text-align: center;
+	font-family: 'Dancing Script', sans-serif;
+	height: 150px;
+	font-size: 15px;
+}
+footer .footer-title{
+	font-size: 30px;
+}
+footer .footer-title img{
+	width:55px;
+	margin-right: 5px;
+	margin-top:-5px;
+}
