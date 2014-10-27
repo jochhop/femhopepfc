@@ -29,13 +29,110 @@
     -->
 
     <!--STYLES-->
+    <link rel="stylesheet" href="/styles/bootstrap/bootstrap-theme.css">
+    <link rel="stylesheet" href="/styles/bootstrap/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/styles/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="/styles/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/importer.css">
+    <link rel="stylesheet" href="/styles/local.css">
+    <link rel="stylesheet" href="/styles/responsive.css">
     <!--STYLES END-->
   </head>
 
   <body>
+    <nav class="navbar navbar-inverse" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">FemHope</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <% if(!session.authenticated){ %>
+            <li>
+              <form class="navbar-form" action="/session/create" method="POST" id="loginForm">
+                <div class="form-group">
+                  <input name="email" type="text" class="form-control input-sm" placeholder="Email">
+                  <input name="password" type="password" class="form-control input-sm" placeholder="Contraseña">
+                </div>
+                <button type="submit" title="Inicia sesión" class="btn btn-info btn-sm">
+                  <span class="glyphicon glyphicon-off"></span>
+                </button>
+                <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+              </form>
+            </li>
+            <li>
+              <a class="dropdown-toggle" data-toggle="dropdown">
+                Crear cuenta
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="/user/register">Como usuario</a></li>
+                <li><a href="/organization/register">Como organización</a></li>
+              </ul>
+            </li>
+            <% }else{ %>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= session.User.name+' '+session.User.surname %> <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="/user/view?id:<%= session.User.id %>">Mi perfil</a></li>
+                <li class="divider"></li>
+                <li><a href="/session/destroy">Cerrar sesión</a></li>
+              </ul>
+            </li>
+            <% } %>
+            <li>
+              <a id="searchButton">
+                <span class="glyphicon glyphicon-search" title="Iniciar búsqueda"></span>
+              </a>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    <nav class="navbar" role="navigation" id="searchBar" style="display:none;">
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" id="searchInput" class="form-control input-sm" placeholder="Buscar...">
+            </div>
+            <button type="submit" class="btn btn-default btn-sm">Buscar</button>
+          </form>
+      </div>
+    </nav>
+    <!-- Global messages --> 
+    <% if(typeof session.flash != 'undefined' && session.flash.err){ %>
+    <ul class="list-group messages">
+    <% Object.keys(session.flash.err).forEach(function(error){ %>
+        <li class="list-group-item list-group-item-danger"><%= JSON.stringify(session.flash.err[error]) %></li>
+    <% }) %>
+    </ul>
+    <% } %>
+    <% if(typeof session.flash != 'undefined' && session.flash.success){ %>
+        <div class="alert alert-success messages"><%= session.flash.success %></div>
+    <% } %>
+    <% if(typeof session.flash != 'undefined' && session.flash.info){ %>
+        <div class="alert alert-info messages"><%= session.flash.info %></div>
+    <% } %>
+    
     <%- body %>
 
-
+    <footer>
+      <p class="footer-title">
+        <img src="/images/logo_bn.png"></img>Proyecto FemHope
+      </p>
+      <p>
+        José Ortega Calahorro · Universidad de Jaén · Politécnica Superior
+      </p>
+    </footer>
 
     <!--
         Client-side Templates
@@ -59,6 +156,7 @@
     -->
 
     <!--TEMPLATES-->
+    
     <!--TEMPLATES END-->
 
 
@@ -86,6 +184,15 @@
     -->
 
     <!--SCRIPTS-->
+    <script src="/js/dependencies/sails.io.js"></script>
+    <script src="/js/jquery-1.11.1.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/form-actions.js"></script>
+    <script src="/js/jquery-masks.js"></script>
+    <script src="/js/jquery-validator.js"></script>
+    <script src="/js/jquery-validatorextra.js"></script>
+    <script src="/js/masks.js"></script>
+    <script src="/js/validator.js"></script>
     <!--SCRIPTS END-->
   </body>
 </html>

@@ -20,7 +20,10 @@
  */
 
 module.exports.connections = {
-
+  // If you leave the adapter config unspecified 
+  // in a model definition, 'default' will be used.
+  'default': 'mongo',
+  
   /***************************************************************************
   *                                                                          *
   * Local disk storage for DEVELOPMENT ONLY                                  *
@@ -57,12 +60,12 @@ module.exports.connections = {
   *                                                                          *
   ***************************************************************************/
   someMongodbServer: {
-    adapter: 'sails-mongo',
+    module: 'sails-mongo',
     host: 'localhost',
     port: 27017,
-    // user: 'username',
-    // password: 'password',
-    // database: 'your_mongo_db_name_here'
+    user: 'administrator',
+    password: '',
+    database: 'femhope_db'
   },
 
   /***************************************************************************

@@ -1,0 +1,167 @@
+<div class="cms-page register-page">
+    <div class="form-block block-center">
+        <h1>Bienvenido/a a femhope</h1>
+        <form class="form-horizontal" role="form" method="POST" action="/user/create">
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">Sobre tí<em>*</em></label>
+                <div class="col-sm-10 on">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control input-sm" name="name" id="name" placeholder="Nombre*">
+                        </div>
+                        <div class="col-xs-5">
+                            <input type="text" class="form-control input-sm" name="surname" id="surname" placeholder="Apellidos*">
+                        </div>
+                        <div class="col-xs-3">
+                            <select name="sex" id="sex" class="form-control input-sm" placeholder="Sexo">
+                                <option value="0">Mujer</option>
+                                <option value="1">Hombre</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <label class="col-sm-2 control-label" for="avatar">Foto</label>
+                <div class="col-sm-10">
+                    <input type="file" id="avatar" name="avatar">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email" class="col-sm-2 control-label">Email<em>*</em></label>
+                <div class="col-sm-5">
+                    <input type="email" class="form-control input-sm" name="email" id="email" placeholder="ejemplo@ejemplo.com">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-sm-2 control-label">Contraseña<em>*</em></label>
+                <div class="col-sm-10">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input type="password" class="form-control input-sm" id="password" name="password" placeholder="Contraseña*">
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="password" class="form-control input-sm" id="passwordConfirmation" name="passwordConfirmation" placeholder="Repita contraseña*">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address" class="col-sm-2 control-label">Dirección<em>*</em></label>
+                <div class="col-sm-10">
+                    <div class="row on">
+                        <div class="col-xs-3">
+                            <input type="text" name="postalCode" id="postalCode" class="form-control input-sm cep"  placeholder="Código postal*">
+                        </div>
+                        <div class="col-xs-5">
+                            <select name="province" id="province" class="form-control input-sm" placeholder="Provincia*" disabled="disabled">
+                            </select>
+                        </div>
+                        <div class="col-xs-4">
+                            <select name="city" id="city" class="form-control input-sm" placeholder="Ciudad*" disabled="disabled">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <select class="form-control input-sm" name="address" id="address" placeholder="Calle*" disabled="disabled"></select>
+                        </div>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control input-sm" name="number" id="number" placeholder="Número*" disabled="disabled">
+                        </div>
+                    </div>
+                    <span class="help-block"><strong>Atención:</strong> los campos de dirección son muy importantes para ofrecerle la información con rapidez y consistencia. Por favor, asegúrese de que los introduce correctamente.</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="requiredPhone" class="col-sm-2 control-label">Teléfonos<em>*</em></label>
+                <div class="col-sm-10">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control input-sm phone" id="requiredPhone" name="requiredPhone" placeholder="Teléfono oficial*">
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control input-sm phone" id="extraPhone" name="extraPhone" placeholder="Otro">
+                        </div>
+                    </div>
+                    <span class="help-block">
+                        <button type="button" class="btn btn-link popover-dismiss" data-toggle="popover" data-placement="right" title="Información sobre los teléfonos" data-content="En el primer campo debe introducir un teléfono con el cual podamos contactar con usted siempre que sea posible. El segundo campo es opcional y sólo se usará en caso de que no podamos localizarle con el primero.">Más información sobre los teléfonos</button>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"> Aceptar las condiciones<em>*</em>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-info" disabled="disabled">Enviar datos</button>
+                </div>
+            </div>
+            <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+        </form>
+    </div>
+</div>
+<script>
+    jQuery('.popover-dismiss').popover({
+      trigger: 'focus'
+    });
+
+    function getCities(pcode){
+        var urltosend = 'http://'+window.location.host+'/location/getcities'
+        jQuery.ajax({
+          url: urltosend,
+          data: {'pcode':pcode},
+          type: 'get'
+        }).success(function(response) {
+            if(response.length > 0){
+                jQuery('#city').empty();
+                for(var i = 0; i<response.length;i++){
+                    jQuery('#city').append('<option value='+response[i]+'>'+response[i]+'</option>');
+                }
+                jQuery('#city').attr('disabled', false);
+            }else{
+                jQuery('#postalCode').removeClass('input-success');
+                jQuery('#postalCode').addClass('input-error');
+                jQuery('#province').attr('disabled', true);
+                jQuery('#city').attr('disabled', true);
+                jQuery('#address').attr('disabled', true);
+                jQuery('#number').attr('disabled', true);
+            }
+        });
+    }
+
+    jQuery('#postalCode').keyup(function(){
+        if(jQuery(this).val().length == 5){
+            var urltosend = 'http://'+window.location.host+'/location/getcounties'
+            jQuery.ajax({
+              url: urltosend,
+              data: {'pcode':jQuery(this).val()},
+              type: 'get'
+            }).success(function(response) {
+                if(response.length > 0){
+                    jQuery('#postalCode').removeClass('input-error');
+                    jQuery('#postalCode').addClass('input-success');
+                    jQuery('#province').empty();
+                    for(var i = 0; i<response.length;i++){
+                        jQuery('#province').append('<option value='+response[i]+'>'+response[i]+'</option>');
+                    }
+                    jQuery('#province').attr('disabled', false);
+                    getCities(jQuery('#postalCode').val());
+                }else{
+                    jQuery('#postalCode').removeClass('input-success');
+                    jQuery('#postalCode').addClass('input-error');
+                    console.log('Invalid postal code');
+                    jQuery('#province').attr('disabled', true);
+                    jQuery('#city').attr('disabled', true);
+                    jQuery('#address').attr('disabled', true);
+                    jQuery('#number').attr('disabled', true);
+                }
+            });
+        }
+    });
+</script>
+
