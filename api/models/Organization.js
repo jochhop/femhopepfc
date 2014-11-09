@@ -40,12 +40,21 @@ module.exports = {
   		type: 'string'
   	},
 
+    nif : {
+      type : 'string',
+      required : true,
+      minLength : 8,
+      maxLength : 8
+    },
+
     services : {
-      type : 'string'
+      type : 'string',
+      required : true
     },
 
     description : {
-      type : 'string'
+      type : 'string',
+      required : true
     },
 
     number : {

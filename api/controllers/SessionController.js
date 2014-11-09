@@ -45,34 +45,61 @@ module.exports = {
   		if(err) return next(err);
 
   		if(!user){
-  			req.session.flash = {
-  				err : [{name: 'userNotFound', message: 'El email introducido no se encuentra registrado.'}]
-  			}
+        Organization.findOneByEmail(req.param('email')).exec(function(err, organization){
+          if(!organization){
+      			req.session.flash = {
+      				err : [{name: 'userNotFound', message: 'El email introducido no se encuentra registrado.'}]
+      			}
 
-  			res.redirect('/');
-  			return;
+      			res.redirect('/');
+      			return;
+          }
+
+          require('bcrypt').compare(req.param('password'), organization.password, function(err, valid){
+            if(!valid){
+              req.session.flash = {
+                err : [{name: 'invalidPassword', message: 'La contraseña introducida no es correcta.'}]
+              }
+
+              res.redirect('/');
+              return;
+            }
+
+            req.session.flash = {
+              success: "Hola "+organization.name+", acabas de iniciar sesión correctamente."
+            }
+
+            req.session.authenticated = true;
+            req.session.User = organization;
+
+            res.redirect('/');
+            return;
+          });
+
+        });
   		}
+      if(user){
+    		require('bcrypt').compare(req.param('password'), user.password, function(err, valid){
+    			if(!valid){
+    				req.session.flash = {
+    					err : [{name: 'invalidPassword', message: 'La contraseña introducida no es correcta.'}]
+    				}
 
-  		require('bcrypt').compare(req.param('password'), user.password, function(err, valid){
-  			if(!valid){
-  				req.session.flash = {
-  					err : [{name: 'invalidPassword', message: 'La contraseña introducida no es correcta.'}]
-  				}
+    				res.redirect('/');
+    				return;
+    			}
 
-  				res.redirect('/');
-  				return;
-  			}
+    			req.session.flash = {
+         	 		success: "Hola "+user.name+", acabas de iniciar sesión correctamente."
+          	}
 
-  			req.session.flash = {
-       	 		success: "Hola "+user.name+", acabas de iniciar sesión correctamente."
-        	}
+    			req.session.authenticated = true;
+    			req.session.User = user;
 
-  			req.session.authenticated = true;
-  			req.session.User = user;
-
-  			res.redirect('/');
-  			return;
-  		});
+    			res.redirect('/');
+    			return;
+    		});
+      }
   	});
   },
 
