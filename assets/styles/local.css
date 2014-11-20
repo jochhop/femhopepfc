@@ -36,9 +36,10 @@ label{
 }
 /*%%%%%%%%%%%%%%%%%%%%%%%*/
 .cms-page{
-	background-image:url('../images/soft_noise.png');
-	background-color:#ABDCD6;
+	/*background-image:url('../images/soft_noise.png');*/
+	/*background-color:#ABDCD6;*/
 	padding-top:0px;
+	min-height: 500px;
 }
 /*%%%%%%%%%%%%%%%%%%%%%%%*/
 .input-success{
@@ -167,6 +168,50 @@ label{
 .left-navigation{
 	padding-left: 0px;
 	padding-right: 0px;
+}
+.org-header{
+	height: 250px;
+	overflow: hidden;
+	position: absolute;
+	width: 100%;
+	left: 0px;
+	text-align: center;
+	background-color: #F0EDE5;
+}
+.org-header .map{
+	margin-top: -65px;
+}
+.org-header .org-options{
+	position: absolute;
+	top: 200px;
+	right: 20px;
+}
+#org-avatar{
+	position: absolute;
+	left: 35px;
+	top: 55px;
+}
+.org-name{
+	position: absolute;
+	top: -15px;
+	right: 30px;
+	font-family: 'Dancing Script', sans-serif;
+	font-size: 40px;
+	color: black;
+	text-shadow: none;
+}
+.org-services{
+	position: absolute;
+	top: 50px;
+	right: 30px;
+	font-size: 20px;
+	color: black;
+	text-shadow: none;
+	text-shadow: 1px 0px 1px gray;
+}
+.org-body{
+	position: relative;
+	top:250px;
 }
 /*%%%%%%%%%%%%%%%%%%%%%%%*/
 footer{

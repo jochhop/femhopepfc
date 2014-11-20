@@ -27,63 +27,72 @@ module.exports = {
   * Import location database from a xml file
   */
   //data imported, uncomment for import again
-   'import' :  function(req, res){
-   	var fs = require('fs'),
-      xml2js = require('xml2js');
+   // 'import' :  function(req, res){
+   // 	var fs = require('fs'),
+   //    xml2js = require('xml2js');
 
-    var parser = new xml2js.Parser();
-    fs.readFile(__dirname + '/bbdd.xml', function(err, data) {
-         parser.parseString(data, function (err, result) {
-             console.log('Importing data...');
-             // console.dir(result);
-             var countryname = 'spain';
-             result.spain.provincia.forEach(function(province) {
-                 var countyname = province['$'].nombre;
-                 province['codigo-postal'].forEach(function(pcode){
-                     var pcodevalue = pcode['$'].value;
-                     pcode.municipio.forEach(function(town){
-                       var cityname = town['$'].nombre;
-                       console.log(cityname);
-                       if(pcode.calle){
-                         pcode.calle.forEach(function(street){
-                           var streetname = street['$'].nombre;
-                           // console.log(streetname);
-                           Location.create({
-                             country : countryname,
-                             county : countyname,
-                             city : cityname,
-                             postalCode : pcodevalue,
-                             street : streetname
-                           }, function locationCreated(err, location){
-                              if(err) {
-                                console.log("Error: "+err);
-                                return next(err);
-                              }
-                              console.log('Location created1: '+location.street);
-                           });
-                         });
-                       }else{
-                         Location.create({
-                             country : countryname,
-                             county : countyname,
-                             city : cityname,
-                             postalCode : pcodevalue
-                           }, function locationCreated(err, location){
-                               if(err) {
-                                console.log("Error: "+err);
-                                return next(err);
-                              }
-                              console.log('Location created2: '+location.street);
-                           });
-                       }
-                     });
-                 });
-             });
-             //console.dir(result.spain.provincia[0]['codigo-postal']);
-             console.log('Done');
-         });
-     });
-   },
+   //  var parser = new xml2js.Parser();
+   //  fs.readFile(__dirname + '/bbdd.xml', function(err, data) {
+   //       parser.parseString(data, function (err, result) {
+   //           console.log('Importing data...');
+   //           // console.dir(result);
+   //           var countryname = 'spain';
+   //           result.spain.provincia.forEach(function(province) {
+   //               var countyname = province['$'].nombre;
+   //               province['codigo-postal'].forEach(function(pcode){
+   //                   var pcodevalue = pcode['$'].value;
+   //                   pcode.municipio.forEach(function(town){
+   //                     var cityname = town['$'].nombre;
+   //                     console.log(cityname);
+   //                     if(pcode.calle){
+   //                       pcode.calle.forEach(function(street){
+   //                         var streetname = street['$'].nombre;
+   //                         // console.log(streetname);
+   //                         Location.create({
+   //                           country : countryname,
+   //                           county : countyname,
+   //                           city : cityname,
+   //                           postalCode : pcodevalue,
+   //                           street : streetname
+   //                         }, function locationCreated(err, location){
+   //                            if(err) {
+   //                              console.log("Error: "+err);
+   //                              return next(err);
+   //                            }
+   //                            console.log('Location created1: '+location.street);
+   //                         });
+   //                       });
+   //                     }else{
+   //                       Location.create({
+   //                           country : countryname,
+   //                           county : countyname,
+   //                           city : cityname,
+   //                           postalCode : pcodevalue
+   //                         }, function locationCreated(err, location){
+   //                             if(err) {
+   //                              console.log("Error: "+err);
+   //                              return next(err);
+   //                            }
+   //                            console.log('Location created2: '+location.street);
+   //                         });
+   //                     }
+   //                   });
+   //               });
+   //           });
+   //           //console.dir(result.spain.provincia[0]['codigo-postal']);
+   //           console.log('Done');
+   //       });
+   //   });
+   // },
+  'test' : function(req, res){
+    var gmaps = require('googlemaps'), util = require('util');
+    var completAddress = "Cristóbal Colón 89, Torredonjimeno, Jaén, España, 23650";
+    gmaps.geocode(completAddress, function(err, data){
+      console.log(util.puts(JSON.stringify(data)));
+      console.log("Parsing: %j",data["results"][0]["geometry"]["location"]["lat"]);
+      console.log("Parsing: %j",data["results"][0]["geometry"]["location"]["lng"]);
+    });
+  },
 
   'getcounties' : function(req, res){
     var pCode = req.param('pcode');

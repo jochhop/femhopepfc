@@ -88,9 +88,9 @@
               <% } %>
               <ul class="dropdown-menu" role="menu">
                 <% if(session.User.rol == 0){ %>
-                  <li><a href="/user/view?id:<%= session.User.id %>">Mi perfil</a></li>
+                  <li><a href="/user/view?id=<%= session.User.id %>">Mi perfil</a></li>
                 <% }else{ %>
-                  <li><a href="/organization/view?id:<%= session.User.id %>">Mi perfil</a></li>
+                  <li><a href="/organization/view?id=<%= session.User.id %>">Mi perfil</a></li>
                 <% } %>
                 <li class="divider"></li>
                 <li><a href="/session/destroy">Cerrar sesión</a></li>

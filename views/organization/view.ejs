@@ -1,3 +1,161 @@
 <div class="cms-page view-page container-fluid">
+	<div class="org-header">
+		<img alt="Organization photo" class="img-circle" id="org-avatar" src="/images/<%= organization.avatar %>" alt="Organization address" ></img>
+		<img class="map" src="/images/maps/<%= organization.map %>" alt="Organization address" ></img>
+		<h1 class="org-name"><%= organization.name %></h1>
+		<h3 class="org-services"><%= organization.services %></h3>
+		<% if((req.session.User && req.session.User.id == organization.id) || (req.session.User && req.session.User.rol == 2)){ %>
+			<div class="org-options">
+				<button  class="btn btn-info" data-toggle="modal" data-target="#editProfile">
+					<span class="glyphicon glyphicon-edit"></span> Editar perfil
+				</button>
+			</div>
+		<% } %>
+	</div>
+	<div class="org-body">
+		<ul class="nav nav-tabs" role="tablist" id="orgOptions">
+		  <li role="presentation" class="active"><a href="#home" role="tab" data-toggle="tab">Home</a></li>
+		  <li role="presentation"><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
+		  <li role="presentation"><a href="#messages" role="tab" data-toggle="tab">Messages</a></li>
+		  <li role="presentation"><a href="#settings" role="tab" data-toggle="tab">Settings</a></li>
+		</ul>
 
+		<div class="tab-content">
+		  <div role="tabpanel" class="tab-pane active" id="home">
+		  	
+		  </div>
+		  <div role="tabpanel" class="tab-pane" id="profile">.2.</div>
+		  <div role="tabpanel" class="tab-pane" id="messages">.3..</div>
+		  <div role="tabpanel" class="tab-pane" id="settings">..4.</div>
+		</div>
+	</div>
+	<% if((req.session.User && req.session.User.id == organization.id) || (req.session.User && req.session.User.rol == 2)){ %>
+	<!-- Modal -->
+	<div class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  		<div class="modal-dialog">
+	    	<div class="modal-content">
+	      		<div class="modal-header">
+	        		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancelar</span></button>
+	        		<h4 class="modal-title" id="myModalLabel">Editar perfil</h4>
+	      		</div>
+	      		<div class="modal-body">
+					<form method="POST" action="/organization/update" id="editOrganizationForm" enctype="multipart/form-data">
+						<div class="row form-horizontal">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="avatar" class="col-sm-3 control-label">Logo</label>
+		                            <div class="col-sm-9">
+										<input type="file" id="avatar" name="avatar" />
+									</div>
+								</div>
+								<div class="form-group">
+		                            <label for="name" class="col-sm-3 control-label">Nombre<em>*</em></label>
+		                            <div class="col-sm-9">
+		                                <input type="text" class="form-control input-sm" name="name" id="name" placeholder="Nombre*" value="<%= organization.name %>">
+		                            </div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label for="services" class="col-sm-3 control-label">Servicios<em>*</em></label>
+		                            <div class="col-sm-9">
+		                                <input type="text" class="form-control input-sm" name="services" id="services" placeholder="Apellidos*" value="<%= organization.services %>">
+		                            </div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label for="nif" class="col-sm-3 control-label">NIF<em>*</em></label>
+		                            <div class="col-sm-9">
+		                                <input type="text" class="form-control input-sm nif" name="nif" id="nif" placeholder="NIF*" value="<%= organization.nif %>">
+		                            </div>
+		                        </div>
+		                      	<div class="form-group">
+		                            <label for="email" class="col-sm-3 control-label">Email</label>
+		                            <div class="col-sm-9">
+		                                <%= organization.email %>
+		                            </div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label for="password" class="col-sm-3 control-label">Contraseña<em>*</em></label>
+		                            <div class="col-sm-9">
+		                                <input type="password" class="form-control input-sm" id="password" name="password" placeholder="Contraseña*">
+		                            </div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label for="passwordConfirmation" class="col-sm-3 control-label">Rep. contraseña<em>*</em></label>
+		                            <div class="col-sm-9">
+		                                <input type="password" class="form-control input-sm" id="passwordConfirmation" name="passwordConfirmation" placeholder="Repita contraseña*">
+		                            </div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label for="postalCode" class="col-sm-3 control-label">C.P.<em>*</em></label>
+		                            <div class="col-sm-9">
+		                                <input type="text" name="postalCode" id="postalCode" class="form-control input-sm cep"  placeholder="Código postal*" value="<%= organization.postalCode %>">
+		                                <span class="error" id="pcodeerror" style="display:none;">Código postal erróneo</span>
+		                            </div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label for="province" class="col-sm-3 control-label">Provincia<em>*</em></label>
+		                            <div class="col-sm-9">
+		                                <select name="province" id="province" class="form-control input-sm">
+		                                	<option value="<%= organization.province %>"><%= organization.province %></option>
+		                                </select>
+		                            </div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label for="city" class="col-sm-3 control-label">Ciudad<em>*</em></label>
+		                            <div class="col-sm-9">
+		                                <select name="city" id="city" class="form-control input-sm">
+		                                	<option value="<%= organization.city %>"><%= organization.city %></option>
+		                                </select>
+		                            </div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label for="address" class="col-sm-3 control-label">Calle<em>*</em></label>
+		                            <div class="col-sm-9">
+		                                <input type="text" class="form-control input-sm" name="address" id="address" placeholder="Calle*"  value="<%= organization.address %>">
+		                            </div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label for="number" class="col-sm-3 control-label">Número<em>*</em></label>
+		                            <div class="col-sm-9">
+		                                <input type="text" class="form-control input-sm" name="number" id="number" placeholder="Número*"  value="<%= organization.number %>">
+		                            </div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label for="requiredPhone" class="col-sm-3 control-label">Teléfono<em>*</em></label>
+		                            <div class="col-sm-9">
+		                                <input type="text" class="form-control input-sm phone" id="requiredPhone" name="requiredPhone" placeholder="Teléfono oficial*"  value="<%= organization.requiredPhone %>">
+		                            </div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label for="extraPhone" class="col-sm-3 control-label">Otro tlf.</label>
+		                            <div class="col-sm-9">
+		                                <input type="text" class="form-control input-sm phone" id="extraPhone" name="extraPhone" placeholder="Otro"  value="<%= organization.extraPhone %>">
+		                                <span class="help-block">
+		                                    <button type="button" class="btn btn-link popover-dismiss" data-toggle="popover" data-placement="top" title="Información sobre los teléfonos" data-content="En el primer campo debe introducir un teléfono con el cual podamos contactar con usted siempre que sea posible. El segundo campo es opcional y sólo se usará en caso de que no podamos localizarle con el primero.">Más información sobre los teléfonos</button>
+		                                </span>
+		                            </div>
+		                        </div>
+		                        <div class="form-group">
+		                            <div class="col-sm-offset-3 col-sm-9">
+		                                <button type="submit" class="btn btn-info">Guardar cambios</button>
+		                            </div>
+		                        </div>
+		                        <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+		                        <input type="hidden" name="organizationId" value="<%= organization.id %>" />
+							</div>
+						</div>
+					</form>
+
+      			</div>
+      			<div class="modal-footer">
+		        	<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+		     	</div>
+	    	</div>
+  		</div>
+	</div>
+	<% } %>
 </div>
+<script>
+  jQuery(function () {
+    jQuery('#orgOptions a:last').tab('show')
+  });
+</script>
