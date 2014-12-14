@@ -74,4 +74,43 @@ jQuery(document).ready(function(){
 	        clearAddress();
 	    }
 	});
+	
+	var ajaxRequest;
+	var timeout;
+
+	jQuery('#searchInput').keyup(function() {
+		clearTimeout(timeout);
+		timeout = setTimeout(function(){autoComplete();}, 1500);
+	});
+
+	jQuery('#searchInput').keydown(function() {
+		jQuery('#autocompleteBlock').empty();
+		clearTimeout(timeout);
+	});
+
+	/*
+		Dispatch an ajax query for search organizations
+	*/
+	function autoComplete() {
+		var val = jQuery('#searchInput').val();
+		if(val != ''){
+			ajaxRequest = jQuery.ajax({ // start new ajaxRequest
+				url: '/organization/search',
+				type: 'post',
+				data: 'name='+val,
+				success: function(result) {
+					var nResults = result.length;
+					var childToInsert;
+					for(var i = 0 ; i < nResults ; i++){
+						childToInsert = 
+							'<li onclick="window.location.href=\'/organization/view?id='+result[i]['id']+'\'">'+
+								'<img src="/images/'+result[i]['avatar']+'"></img>'+
+								'<span>'+result[i]['name']+'</span>'+
+							'</li>';
+						jQuery('#autocompleteBlock').append(childToInsert);
+					}
+				}
+			});
+		}
+	}
 });

@@ -94,6 +94,28 @@ label{
 	left: 15px;
 	top: 70px;
 }
+#autocompleteBlock{
+	list-style: none;
+	padding-left: 0px;
+	position: absolute;
+	width: 212px;
+	z-index: 99;
+}
+#autocompleteBlock li{
+	cursor: pointer;
+	padding-top: 5px;
+	padding-bottom:5px;
+	background-color: whitesmoke;
+}
+#autocompleteBlock li:hover{
+	background-color: white;
+}
+#autocompleteBlock img{
+	width: 35px;
+}
+#autocompleteBlock span{
+	margin-left: 5px;
+}
 /*%%%%%%%%%%%%%%%%%%%%%%%*/
 .messages{
 	margin-bottom: 0px;
@@ -212,6 +234,18 @@ label{
 .org-body{
 	position: relative;
 	top:250px;
+}
+/*%%%%%%%%%%%%%%%%%%%%%%%*/
+.mini-map{
+	height: 210px;
+}
+.org-tiles .col-md-4{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.org-tiles .col-md-4 .org-photo{
+	padding: 5px;
+	border: 1px solid gray;
 }
 /*%%%%%%%%%%%%%%%%%%%%%%%*/
 footer{

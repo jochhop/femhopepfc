@@ -99,11 +99,9 @@
 					}
 				}, false, 'roadmap', markers));
 			});
-
-});
-
-return res.redirect('/');
-},
+		});
+		return res.redirect('/');
+	},
 
 	/**
 	* Edit user data
@@ -307,27 +305,26 @@ return res.redirect('/');
 			        }
 			        res.redirect('/organization/view?id='+req.param('organizationId'));
 			    });
-}else{
-	req.session.flash = {
-		error: "La organización no se ha encontrado"
-	}
-	res.redirect('/');
-	return;
-}
+			}else{
+				req.session.flash = {
+					error: "La organización no se ha encontrado"
+				}
+				res.redirect('/');
+				return;
+			}
 
-req.session.flash = {
-	success: "Organización editada correctamente, verás tus cambios aplicados cuando vuelvas a logearte"
-}
+			req.session.flash = {
+				success: "Organización editada correctamente, verás tus cambios aplicados cuando vuelvas a logearte"
+			}
+		});
 
-});
-
-}else{
-	req.session.flash = {
-		error: "No tienes permisos para realizar esta acción."
-	}
-	res.redirect('/');
-}
-},
+		}else{
+			req.session.flash = {
+				error: "No tienes permisos para realizar esta acción."
+			}
+			res.redirect('/');
+		}
+	},
 
 	/**
 	* Render the organization view
@@ -342,6 +339,20 @@ req.session.flash = {
 				organization : organization,
 			});
 		});
+	},
+
+	'search' : function(req, res, next){
+		var orgName = req.param('name');
+
+		if(orgName && orgName != ''){
+			Organization.find({'name' : {'contains' : orgName}}).limit(10).exec(function(err, orgs){
+				if(err){
+					return next(err);
+				}
+
+				res.send(orgs);
+			});
+		}
 	}
 };
 

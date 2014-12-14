@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>New Sails App</title>
+    <title>Femhope</title>
 
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -113,6 +113,24 @@
               <input type="text" id="searchInput" class="form-control input-sm" placeholder="Buscar...">
             </div>
             <button type="submit" class="btn btn-default btn-sm">Buscar</button>
+            <ul id="autocompleteBlock">
+              <li>
+                <img src="/images/logo_bn.png" />
+                <span>test</span>
+              </li>
+              <li>
+                <img src="/images/logo_bn.png" />
+                <span>test</span>
+              </li>
+              <li>
+                <img src="/images/logo_bn.png" />
+                <span>test</span>
+              </li>
+              <li>
+                <img src="/images/logo_bn.png" />
+                <span>test</span>
+              </li>
+            </ul>
           </form>
       </div>
     </nav>
@@ -190,12 +208,17 @@
           + Use a different preprocessor, like TypeScript
 
     -->
+    <script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAU18qK_Ouq23XL7hYLK2vWhNq7ILDaUxA&sensor=false">
+    </script>
 
     <!--SCRIPTS-->
     <script src="/js/dependencies/sails.io.js"></script>
     <script src="/js/jquery-1.11.1.min.js"></script>
     <script src="/js/bootstrap/bootstrap.min.js"></script>
     <script src="/js/form-actions.js"></script>
+    <script src="/js/geolocator.js"></script>
+    <script src="/js/gmaps.js"></script>
     <script src="/js/jquery-masks.js"></script>
     <script src="/js/jquery-validator.js"></script>
     <script src="/js/jquery-validatorextra.js"></script>

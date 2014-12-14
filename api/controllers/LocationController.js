@@ -14,6 +14,8 @@
  *
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
+ var fs = require('fs'),
+  dist = require('geo-distance-js');
 
 module.exports = {
 
@@ -84,15 +86,15 @@ module.exports = {
    //       });
    //   });
    // },
-  'test' : function(req, res){
-    var gmaps = require('googlemaps'), util = require('util');
-    var completAddress = "Cristóbal Colón 89, Torredonjimeno, Jaén, España, 23650";
-    gmaps.geocode(completAddress, function(err, data){
-      console.log(util.puts(JSON.stringify(data)));
-      console.log("Parsing: %j",data["results"][0]["geometry"]["location"]["lat"]);
-      console.log("Parsing: %j",data["results"][0]["geometry"]["location"]["lng"]);
-    });
-  },
+  // 'test' : function(req, res){
+  //   var gmaps = require('googlemaps'), util = require('util');
+  //   var completAddress = "Cristóbal Colón 89, Torredonjimeno, Jaén, España, 23650";
+  //   gmaps.geocode(completAddress, function(err, data){
+  //     console.log(util.puts(JSON.stringify(data)));
+  //     console.log("Parsing: %j",data["results"][0]["geometry"]["location"]["lat"]);
+  //     console.log("Parsing: %j",data["results"][0]["geometry"]["location"]["lng"]);
+  //   });
+  // },
 
   'getcounties' : function(req, res){
     var pCode = req.param('pcode');
@@ -134,7 +136,47 @@ module.exports = {
         res.send(temp);
       }
     });
-  }/*,
+  },
+
+  /**
+  * Get the 10 closests organizations respecting the position of the user
+  * if not logged or the coordinates of the user addres if logged
+  */
+  'closest-organizations' : function(req, res){
+    var latitude = '';
+    var longitude = '';
+
+    if(req.session.User && req.session.User.rol == 0){
+      latitude = req.session.User.latitude;
+      longitude = req.session.User.longitude;
+    }else{
+      latitude = req.param('latitude') ? req.param('latitude') : '';
+      longitude = req.param('longitude') ? req.param('longitude') : '';
+    }
+
+    if(latitude != '' && longitude != ''){
+      Organization.find(function(err, organizations){
+        var orgNumber = organizations.length;
+        var orgList = [];
+        var counter = 0;
+
+        organizations.forEach(function(organization, i){
+          var from = {'lng' : longitude, 'lat' : latitude};
+          var to = [{'lng' : organization.longitude, 'lat' : organization.latitude}];
+          var distance = dist.getDistance(from, to);
+          orgList[counter] = {'organization' : organization, 'distance' : distance[0].distance};
+          ++counter;
+        });
+        
+        orgList.sort(function(a,b) { return parseFloat(a.distance) - parseFloat(b.distance) });
+        var tenOrgs = orgList.slice(0,9);
+        res.send({'status' : 'ok', 'orgs' : tenOrgs, 'latitude' : latitude, 'longitude' : longitude});
+      });
+    }else{
+      res.send({'status' : 'error'});
+    }
+  }
+  /*,
   Couldn't get all the streets from all the towns and cities, user will write it
   'getstreets' : function(req, res){
     var pCode = req.param('pcode');
