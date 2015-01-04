@@ -80,7 +80,7 @@ jQuery(document).ready(function(){
 
 	jQuery('#searchInput').keyup(function() {
 		clearTimeout(timeout);
-		timeout = setTimeout(function(){autoComplete();}, 1500);
+		timeout = setTimeout(function(){autoComplete();}, 1000);
 	});
 
 	jQuery('#searchInput').keydown(function() {

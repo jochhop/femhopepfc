@@ -300,14 +300,14 @@ return res.redirect('/');
             success: "Usuario editado correctamente, verás tus cambios aplicados cuando vuelvas a logearte"
           }
         });
-});
-}else{
-  req.session.flash = {
-    error: "No tienes permisos para realizar esta acción."
-  }
-  res.redirect('/');
-}
-},
+      });
+    }else{
+      req.session.flash = {
+        error: "No tienes permisos para realizar esta acción."
+      }
+      res.redirect('/');
+    }
+  },
 
   /**
   * Render the user view
@@ -326,6 +326,44 @@ return res.redirect('/');
         error: "No tienes permisos para realizar esta acción."
       }
       res.redirect('/');
+    }
+  },
+
+  'enable/account' : function(req, res, next){
+    if(req.session && req.session.User.rol > 1){
+      User.findOne(req.param('id'), function foundOrganization(err, user){
+        if(err) return next(err);
+
+        if(!user) return next();
+
+        user.accountStatus = 1;
+        user.save();
+
+        req.session.flash = {
+          success: "Cuenta activada con éxito"
+        }
+
+        res.redirect('/admin/users');
+      });
+    }
+  },
+
+  'disable/account' : function(req, res, next){
+    if(req.session && req.session.User.rol > 1){
+      User.findOne(req.param('id'), function foundOrganization(err, user){
+        if(err) return next(err);
+
+        if(!user) return next();
+
+        user.accountStatus = 0;
+        user.save();
+
+        req.session.flash = {
+          success: "Cuenta desactivada con éxito"
+        }
+
+        res.redirect('/admin/users');
+      });
     }
   }
   

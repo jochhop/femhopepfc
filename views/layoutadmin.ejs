@@ -40,7 +40,7 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-inverse" role="navigation">
+    <nav class="navbar navbar-inverse admin-navbar" role="navigation">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -50,56 +50,15 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">FemHope</a>
+          <a class="navbar-brand" href="/admin">FemHope</a>
+          <span class="label label-danger" id="administration-label">Administración</span>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <% if(!session.authenticated){ %>
-            <li>
-              <form class="navbar-form" action="/session/create" method="POST" id="loginForm">
-                <div class="form-group">
-                  <input name="email" type="text" class="form-control input-sm" placeholder="Email">
-                  <input name="password" type="password" class="form-control input-sm" placeholder="Contraseña">
-                </div>
-                <button type="submit" title="Inicia sesión" class="btn btn-info btn-sm">
-                  <span class="glyphicon glyphicon-off"></span>
-                </button>
-                <input type="hidden" name="_csrf" value="<%= _csrf %>" />
-              </form>
-            </li>
-            <li>
-              <a class="dropdown-toggle" data-toggle="dropdown">
-                Crear cuenta
-                <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="/user/register">Como usuario</a></li>
-                <li><a href="/organization/register">Como organización</a></li>
-              </ul>
-            </li>
-            <% }else{ %>
-            <li class="dropdown">
-              <% if(session.User.surname){ %>
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= session.User.name+' '+session.User.surname %> <span class="caret"></span></a>
-              <% }else{ %>
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= session.User.name %> <span class="caret"></span></a>
-              <% } %>
-              <ul class="dropdown-menu" role="menu">
-                <% if(session.User.rol == 0){ %>
-                  <li><a href="/user/view?id=<%= session.User.id %>">Mi perfil</a></li>
-                <% }else{ %>
-                  <% if(session.User.rol == 1){ %>
-                    <li><a href="/organization/view?id=<%= session.User.id %>">Mi perfil</a></li>
-                  <% }else{ %>
-                      <li><a href="/admin/index" target="_blank">Panel de control</a></li>
-                  <% } %>
-                <% } %>
-                <li class="divider"></li>
-                <li><a href="/session/destroy">Cerrar sesión</a></li>
-              </ul>
-            </li>
+            <% if(session.authenticated && session.User.rol > 1){ %>
+              <li><a href="/session/destroy">Cerrar sesión</a></li>
             <% } %>
             <li>
               <a id="searchButton">

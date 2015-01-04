@@ -104,6 +104,59 @@ module.exports = {
   },
 
   /**
+   * Create a login session for the administration
+   * @param array req
+   * @param array res
+   * @param function next
+   * @return void
+   */
+  'admin/create' : function(req, res, next){
+
+    if(!req.param('email') || !req.param('password')){
+      req.session.flash = {
+        err : [{name: 'userEmailPasswordRequired', message: 'Debe introducir un email y contraseña válidos.'}]
+      }
+      
+      res.redirect('/');
+      return;
+    }
+    
+    Admin.findOneByEmail(req.param('email')).exec(function(err, admin){
+      if(err) return next(err);
+
+      if(admin){
+        require('bcrypt').compare(req.param('password'), admin.password, function(err, valid){
+          if(!valid){
+            req.session.flash = {
+              err : [{name: 'invalidPassword', message: 'La contraseña introducida no es correcta.'}]
+            }
+
+            res.redirect('/admin');
+            return;
+          }
+
+          req.session.flash = {
+            success: "Acabas de iniciar sesión como administrador."
+          }
+
+          req.session.authenticated = true;
+          req.session.User = admin;
+
+          res.redirect('/admin');
+          return;
+        });
+      }else{
+        req.session.flash = {
+          err : [{name: 'errorAdminData', message: 'Acceso denegado.'}]
+        }
+
+        res.redirect('/admin');
+        return;
+      }
+    });
+  },
+
+  /**
    * Destroy a login session
    * @param array req
    * @param array res

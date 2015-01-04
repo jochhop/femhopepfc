@@ -1,0 +1,25 @@
+<div class="cms-page container">
+	<form action="/session/admin/create" method="POST" id="loginAdminForm">
+		<div class="form-centered form-horizontal">
+			<h3>Administración de Femhope</h3>
+			<div class="form-group">
+				<label for="email" class="col-sm-3 control-label">Email<em>*</em></label>
+				<div class="col-sm-9">
+					<input type="email" class="form-control input-sm" name="email" id="email" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="password" class="col-sm-3 control-label">Contraseña<em>*</em></label>
+				<div class="col-sm-9">
+					<input type="password" class="form-control input-sm" id="password" name="password" />
+				</div>
+			</div>
+			<div class="form-group buttons">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-info">Enviar datos</button>
+                </div>
+            </div>
+            <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+		</div>
+	</form>
+</div>

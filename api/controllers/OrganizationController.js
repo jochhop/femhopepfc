@@ -9,6 +9,7 @@
  util = require('util'),
  gmaps = require('googlemaps'),
  uuid = require('node-uuid');
+
  /* path for upload the images */
  var UPLOAD_PATH = '../../assets/images';
  var NO_USER_PHOTO = 'no_image.png';
@@ -190,11 +191,11 @@
 	// 	});
 	// },
 
-	/**
+	/*
 	* Edit organization function
 	*/
 	'update' : function(req, res, next){
-		if(req.session.User && req.session.User.id == req.param('organizationId')){
+		if(req.session.User && (req.session.User.rol > 1 || req.session.User.id == req.param('organizationId'))){
 
 			Organization.findOne().where({id : req.param('organizationId')}).then(function(organization){
 				
@@ -212,111 +213,111 @@
 							var fileName = '';
 						}
 
-			        //direct params
-			        organization.name = req.param('name');
-			        organization.services = req.param('services');
-			        organization.requiredPhone = req.param('requiredPhone');
-			        organization.extraPhone = req.param('extraPhone');
+				        //direct params
+				        organization.name = req.param('name');
+				        organization.services = req.param('services');
+				        organization.requiredPhone = req.param('requiredPhone');
+				        organization.extraPhone = req.param('extraPhone');
 
-			        var addressChanged = false;
-			        if(req.param('number') != '' && req.param('number') != organization.number){
-			        	organization.number = req.param('number');
-			        	addressChanged = true;
-			        }
-			        if(req.param('address') != '' && req.param('address') != organization.address){
-			        	organization.address = req.param('address');
-			        	addressChanged = true;
-			        }
-			        if(req.param('province') != '' && req.param('province') != organization.province){
-			        	organization.province = req.param('province');
-			        	addressChanged = true;
-			        }
-			        if(req.param('city') != '' && req.param('city') != organization.city){
-			        	organization.city = req.param('city');
-			        	addressChanged = true;
-			        }
-			        if(req.param('postalCode') != '' && req.param('postalcode') != organization.postalCode){
-			        	organization.postalCode = req.param('postalCode');
-			        	addressChanged = true;
-			        }
+				        var addressChanged = false;
+				        if(req.param('number') != '' && req.param('number') != organization.number){
+				        	organization.number = req.param('number');
+				        	addressChanged = true;
+				        }
+				        if(req.param('address') != '' && req.param('address') != organization.address){
+				        	organization.address = req.param('address');
+				        	addressChanged = true;
+				        }
+				        if(req.param('province') != '' && req.param('province') != organization.province){
+				        	organization.province = req.param('province');
+				        	addressChanged = true;
+				        }
+				        if(req.param('city') != '' && req.param('city') != organization.city){
+				        	organization.city = req.param('city');
+				        	addressChanged = true;
+				        }
+				        if(req.param('postalCode') != '' && req.param('postalcode') != organization.postalCode){
+				        	organization.postalCode = req.param('postalCode');
+				        	addressChanged = true;
+				        }
 
-			        //address changed
-			        if(addressChanged){
-			        	var completAddress = organization.address+" "+organization.number+","+organization.country+","+organization.province+","+organization.city;
-			        	var mapName = uuid.v4()+'.png';
+				        //address changed
+				        if(addressChanged){
+				        	var completAddress = organization.address+" "+organization.number+","+organization.country+","+organization.province+","+organization.city;
+				        	var mapName = uuid.v4()+'.png';
 
-			        	markers = [
-			        	{ 'location': completAddress }
-			        	]
-			        	fs.unlink('assets/images/maps/' + organization.map, function (err) {
-			        		if (err) throw err;
-			        		console.log('successfully deleted '+UPLOAD_PATH + '/maps/' + organization.map);
+				        	markers = [
+				        		{ 'location': completAddress }
+				        	]
+				        	fs.unlink('assets/images/maps/' + organization.map, function (err) {
+				        		if (err) throw err;
+				        		console.log('successfully deleted '+UPLOAD_PATH + '/maps/' + organization.map);
 			        		
-			        		util.puts(gmaps.staticMap(completAddress, 15, '640x400', function(err, data){
-			        			if (err) return res.serverError(err);
-			        			
-			        			var map = fs.writeFileSync('assets/images/maps/'+mapName, data, 'binary');
+				        		util.puts(gmaps.staticMap(completAddress, 15, '640x400', function(err, data){
+				        			if (err) return res.serverError(err);
+				        			
+				        			var map = fs.writeFileSync('assets/images/maps/'+mapName, data, 'binary');
 
-			        			gmaps.geocode(completAddress, function(err, data){
-			        				organization.map = mapName;
-			        				organization.latitude = data["results"][0]["geometry"]["location"]["lat"];
-			        				organization.longitude = data["results"][0]["geometry"]["location"]["lng"];
-			        				organization.save();
-			        			});
+				        			gmaps.geocode(completAddress, function(err, data){
+				        				organization.map = mapName;
+				        				organization.latitude = data["results"][0]["geometry"]["location"]["lat"];
+				        				organization.longitude = data["results"][0]["geometry"]["location"]["lng"];
+				        				organization.save();
+				        			});
 
-			        		}, false, 'roadmap', markers));
-			        	});
-			        }
-
-			        //avatar
-			        if(fileName != ''){
-			        	if(organization.avatar != NO_USER_PHOTO){
-			        		fs.unlink('assets/images/' + organization.avatar, function (err) {
-			        			if (err) throw err;
-			        			console.log('successfully deleted '+UPLOAD_PATH + '/' + organization.avatar);
+			        			}, false, 'roadmap', markers));
 			        		});
 			        	}
-			        	organization.avatar = fileName;
-			        }
 
-			        //organization saved
-			        organization.save(function(err){
-			        	if(err) {
-			        		console.log(err);
-			        		req.session.flash = {
-			        			error: "La organización no ha podido ser editada"
-			        		}
-			        		res.redirect('/organization/view?id='+req.param('organizationId'));
-			        		return;
-			        	}
-			        });
+				        //avatar
+				        if(fileName != ''){
+				        	if(organization.avatar != NO_USER_PHOTO){
+				        		fs.unlink('assets/images/' + organization.avatar, function (err) {
+				        			if (err) throw err;
+				        			console.log('successfully deleted '+UPLOAD_PATH + '/' + organization.avatar);
+				        		});
+				        	}
+				        	organization.avatar = fileName;
+				        }
 
-			        //changing password
-			        if(req.param('password') && req.param('password') != '' && req.param('password') == req.param('passwordConfirmation')){
-			        	
-			        	require('bcrypt').hash(req.param('password'), 10, function passwordEncripted(err, password){
-			        		if(err) return next(err);
+				        //organization saved
+				        organization.save(function(err){
+				        	if(err) {
+				        		console.log(err);
+				        		req.session.flash = {
+				        			error: "La organización no ha podido ser editada"
+				        		}
+				        		res.redirect('/organization/view?id='+req.param('organizationId'));
+				        		return;
+				        	}
+				        });
 
-			        		organization.password = password;
-			        		organization.passwordConfirmation = password;
-			        		organization.save();
-			        		res.redirect('/organization/view?id='+req.param('organizationId'));
-			        	});
-			        }
-			        res.redirect('/organization/view?id='+req.param('organizationId'));
-			    });
-			}else{
-				req.session.flash = {
-					error: "La organización no se ha encontrado"
+				        //changing password
+				        if(req.param('password') && req.param('password') != '' && req.param('password') == req.param('passwordConfirmation')){
+				        	
+				        	require('bcrypt').hash(req.param('password'), 10, function passwordEncripted(err, password){
+				        		if(err) return next(err);
+
+				        		organization.password = password;
+				        		organization.passwordConfirmation = password;
+				        		organization.save();
+				        		res.redirect('/organization/view?id='+req.param('organizationId'));
+				        	});
+				        }
+			        	res.redirect('/organization/view?id='+req.param('organizationId'));
+			    	});
+				}else{
+					req.session.flash = {
+						error: "La organización no se ha encontrado"
+					}
+					res.redirect('/');
+					return;
 				}
-				res.redirect('/');
-				return;
-			}
 
-			req.session.flash = {
-				success: "Organización editada correctamente, verás tus cambios aplicados cuando vuelvas a logearte"
-			}
-		});
+				req.session.flash = {
+					success: "Organización editada correctamente, verás tus cambios aplicados cuando vuelvas a logearte"
+				}
+			});
 
 		}else{
 			req.session.flash = {
@@ -341,6 +342,9 @@
 		});
 	},
 
+	/*
+	* Get 10 organizations searched by name
+	*/
 	'search' : function(req, res, next){
 		var orgName = req.param('name');
 
@@ -351,6 +355,44 @@
 				}
 
 				res.send(orgs);
+			});
+		}
+	},
+
+	'enable/account' : function(req, res, next){
+		if(req.session && req.session.User.rol > 1){
+			Organization.findOne(req.param('id'), function foundOrganization(err, organization){
+				if(err) return next(err);
+
+				if(!organization) return next();
+
+				organization.accountStatus = 1;
+				organization.save();
+
+				req.session.flash = {
+					success: "Cuenta activada con éxito"
+				}
+
+				res.redirect('/admin/organizations');
+			});
+		}
+	},
+
+	'disable/account' : function(req, res, next){
+		if(req.session && req.session.User.rol > 1){
+			Organization.findOne(req.param('id'), function foundOrganization(err, organization){
+				if(err) return next(err);
+
+				if(!organization) return next();
+
+				organization.accountStatus = 0;
+				organization.save();
+
+				req.session.flash = {
+					success: "Cuenta desactivada con éxito"
+				}
+
+				res.redirect('/admin/organizations');
 			});
 		}
 	}

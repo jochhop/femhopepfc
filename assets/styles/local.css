@@ -4,6 +4,7 @@
 /*%%%%%%%%%%%%%%%%%%%%%%%*/
 html, body{
 	font-family: 'Lato', sans-serif;
+	background: whitesmoke;
 }
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
 	font-family: 'Josefin Slab', sans-serif;
@@ -34,6 +35,10 @@ label{
 	font-weight: 400;
 	font-size: 9pt;
 }
+#administration-label{
+	position: absolute;
+	top: 22px;
+}
 /*%%%%%%%%%%%%%%%%%%%%%%%*/
 .cms-page{
 	/*background-image:url('../images/soft_noise.png');*/
@@ -55,6 +60,10 @@ label{
 	-moz-border-radius:0px;
 	-webkit-border-radius:0px;
 	background-image: none;
+}
+.navbar.admin-navbar{
+	background:darkgreen;
+	border: 1px solid darkgreen;
 }
 .navbar .navbar-brand{
 	padding-left: 50px;
@@ -105,10 +114,10 @@ label{
 	cursor: pointer;
 	padding-top: 5px;
 	padding-bottom:5px;
-	background-color: whitesmoke;
+	background-color: white;
 }
 #autocompleteBlock li:hover{
-	background-color: white;
+	background-color: whitesmoke;
 }
 #autocompleteBlock img{
 	width: 35px;
@@ -126,14 +135,15 @@ label{
 	width:95%;
 	background-color: white;
 	margin:0 auto;
-	-webkit-box-shadow: 0 0 6px rgba(0,0,0,0.3);
+/*	-webkit-box-shadow: 0 0 6px rgba(0,0,0,0.3);
 	-moz-box-shadow: 0 0 6px rgba(0,0,0,0.3);
 	box-shadow: 0 0 6px rgba(0,0,0,0.3);
 	border-radius: 3px;
 	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
+	-moz-border-radius: 3px;*/
 	margin-bottom: 20px;
-	border:1px solid #5B9CA2;
+	/*border:1px solid #5B9CA2;*/
+	border: 1px solid gray;
 }
 .tile-title{
 	margin-bottom:20px;
@@ -157,9 +167,9 @@ label{
 /*%%%%%%%%%%%%%%%%%%%%%%%*/
 .register-page{
 	/*background-color: #5B9CA2;*/
-	background-image:url('../images/register-back.jpg');
+	/*background-image:url('../images/register-back.jpg');
 	background-repeat: no-repeat;
-	background-size: 100%;
+	background-size: 100%;*/
 }
 /*%%%%%%%%%%%%%%%%%%%%%%%*/
 .view-page .form-horizontal .form-group{
@@ -246,6 +256,7 @@ label{
 .org-tiles .col-md-4 .org-photo{
 	padding: 5px;
 	border: 1px solid gray;
+	background-color: white;
 }
 /*%%%%%%%%%%%%%%%%%%%%%%%*/
 footer{
@@ -254,6 +265,7 @@ footer{
 	font-family: 'Dancing Script', sans-serif;
 	height: 150px;
 	font-size: 15px;
+	background: white;
 }
 footer .footer-title{
 	font-size: 30px;
@@ -262,4 +274,29 @@ footer .footer-title img{
 	width:55px;
 	margin-right: 5px;
 	margin-top:-5px;
+}
+
+
+/*%%%%%%%%%%%% ADMINISTRATION %%%%%%%%%%%*/
+#loginAdminForm .form-group.buttons{
+	text-align: right;
+}
+#loginAdminForm .form-centered{
+	max-width: 400px;
+	margin: 0 auto;
+	margin-top: 100px;
+}
+#loginAdminForm h3{
+	text-align: center;
+	padding-bottom: 10px;
+	border-bottom: 1px solid;
+	margin-bottom: 15px;
+}
+.img-circle.img-small{
+	width: 45px;
+	background-color: white;
+	box-shadow: 0px 0px 2px;
+}
+.table.table-admin td{
+	vertical-align: middle;
 }

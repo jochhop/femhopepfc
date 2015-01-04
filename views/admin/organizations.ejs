@@ -1,0 +1,55 @@
+<div class="cms-page container">
+	<ul class="nav nav-tabs" role="tablist">
+		<li>
+			<a href="/admin/users">Gestión de usuarios</a>
+		</li>
+		<li class="active">
+			<a>Gestión de organizaciones</a>
+		</li>
+		<li>
+			<a href="/admin/reports">Gestión de reportes</a>
+		</li>
+	</ul>
+	<table class="table table-hover table-admin">
+		<thead>
+			<th></th>
+			<th>#</th>
+			<th>Nombre</th>
+			<th>Apellidos</th>
+			<th>Email</th>
+			<th>Teléfono</th>
+			<th>Estado</th>
+			<th>Opciones</th>
+		</thead>
+		<tbody>
+			<% for(var i=0; i < organizations.length; i++) { %>
+			<tr>
+				<td>
+					<img src="/images/<%= organizations[i].avatar %>" alt="Organization photo" class="img-circle img-small" />
+				</td>
+				<td><%= organizations[i].id %></td>
+				<td><%= organizations[i].name %></td>
+				<td><%= organizations[i].surname %></td>
+				<td><%= organizations[i].email %></td>
+				<td><%= organizations[i].requiredPhone %></td>
+				<td>
+					<% if(organizations[i].accountStatus){ %>
+						<span class="label label-success">Activo</span>
+					<% }else{ %>
+						<span class="label label-danger">Inactivo</span>
+					<% } %>
+				</td>
+				<td>
+					<a href="/organization/view?id=<%= organizations[i].id %>">perfil</a>
+					-
+					<% if(organizations[i].accountStatus){ %>
+						<a href="/organization/disable/account?id=<%= organizations[i].id %>">desactivar cuenta</a>
+					<% }else{ %>
+						<a href="/organization/enable/account?id=<%= organizations[i].id %>">activar cuenta</a>
+					<% } %>
+				</td>
+			</tr>
+			<% } %>
+		</tbody>
+	</table>
+</div>
