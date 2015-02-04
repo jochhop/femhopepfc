@@ -81,7 +81,7 @@
 				var completAddress = organization.address+" "+organization.number+","+organization.country+","+organization.province+","+organization.city;
 				
 				markers = [
-				{ 'location': completAddress }
+					{ 'location': completAddress }
 				]
 
 				util.puts(gmaps.staticMap(completAddress, 15, '640x400', function(err, data){
@@ -359,6 +359,9 @@
 		}
 	},
 
+	/*
+	* Enable an organization account
+	*/
 	'enable/account' : function(req, res, next){
 		if(req.session && req.session.User.rol > 1){
 			Organization.findOne(req.param('id'), function foundOrganization(err, organization){
@@ -378,6 +381,9 @@
 		}
 	},
 
+	/*
+	* Disable an organization account
+	*/
 	'disable/account' : function(req, res, next){
 		if(req.session && req.session.User.rol > 1){
 			Organization.findOne(req.param('id'), function foundOrganization(err, organization){
