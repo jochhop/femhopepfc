@@ -72,7 +72,8 @@ module.exports = {
             req.session.authenticated = true;
             req.session.User = organization;
 
-            res.redirect('/');
+            backURL = req.header('Referer') || '/';
+            res.redirect(backURL);
             return;
           });
 
@@ -96,7 +97,8 @@ module.exports = {
     			req.session.authenticated = true;
     			req.session.User = user;
 
-    			res.redirect('/');
+    			backURL = req.header('Referer') || '/';
+          res.redirect(backURL);
     			return;
     		});
       }

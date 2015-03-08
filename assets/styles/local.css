@@ -62,8 +62,8 @@ label{
 	background-image: none;
 }
 .navbar.admin-navbar{
-	background:darkgreen;
-	border: 1px solid darkgreen;
+	background:#205081;
+	border: 1px solid #205081;
 }
 .navbar .navbar-brand{
 	padding-left: 50px;

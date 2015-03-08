@@ -336,9 +336,27 @@
 
 			if(!organization) return next();
 
-			res.view({
-				organization : organization,
-			});
+			if(req.session.User && req.session.User.rol == 0){
+
+				Favorite.findOne({'idUser' : req.session.User.id, 'idOrganization' : organization.id}, function (err, favorite){
+					if(favorite){
+						res.view({
+							organization : organization,
+							isFavorite : true
+						});
+					}else{
+						res.view({
+							organization : organization,
+							isFavorite : false
+						});
+					}
+				});
+
+			}else{
+				res.view({
+					organization : organization,
+				});
+			}
 		});
 	},
 

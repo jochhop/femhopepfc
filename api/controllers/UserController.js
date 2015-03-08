@@ -329,6 +329,79 @@ return res.redirect('/');
     }
   },
 
+  /**
+  * Renders the favorites list
+  */
+  'favorites' : function(req, res, next){
+    if(req.session.User && req.session.User.rol == 2 || req.session.User.id == req.param('id')){
+      User.findOne(req.param('id'), function foundUser(err, user){
+        if(err) return next(err);
+        if(!user) return next();
+        
+        Favorite.find({'idUser': req.param('id')}, function foundFavorites(err, favorites){
+          if(err) return next(err);
+          if(!favorites) return next();
+
+          var orgFavorites = new Array();
+          var nFavorites = favorites.length;
+
+          for(var i = 0 ; i < nFavorites ; i++){
+            orgFavorites.push(favorites[i].idOrganization);
+          }
+
+          Organization.find({'id' : {'$in':orgFavorites}}, function(err, organizations){
+            if(err) return next(err);
+
+            res.view({
+              organizations : organizations,
+              user : user
+            });
+
+          });
+        });
+      });
+    }else{
+      req.session.flash = {
+        error: "No tienes permisos para realizar esta acción."
+      }
+      res.redirect('/');
+    }
+  },
+
+  /**
+  * Renders the favorites list
+  */
+  'favorites/remove' : function(req, res, next){
+    if(req.session.User && req.session.User.rol == 2 || req.session.User.id == req.param('id')){
+      Favorite.find({'idUser': req.param('id')}, function foundFavorites(err, favorites){
+        if(err) return next(err);
+        if(!favorites) return next();
+
+        var orgFavorites = new Array();
+        var nFavorites = favorites.length;
+
+        for(var i = 0 ; i < nFavorites ; i++){
+          orgFavorites.push(favorites[i].idOrganization);
+        }
+
+        Organization.find({'id' : {'$in':orgFavorites}}, function(err, organizations){
+          if(err) return next(err);
+
+          res.view({
+            organizations : organizations
+          });
+
+        });
+      });
+    }else{
+      req.session.flash = {
+        error: "No tienes permisos para realizar esta acción."
+      }
+      res.redirect('/');
+    }
+  },
+
+
   'enable/account' : function(req, res, next){
     if(req.session && req.session.User.rol > 1){
       User.findOne(req.param('id'), function foundOrganization(err, user){

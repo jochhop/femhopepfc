@@ -11,6 +11,19 @@
 				</button>
 			</div>
 		<% } %>
+		<% if(req.session.User && req.session.User.rol == 0 && !isFavorite){ %>
+			<div class="org-options">
+				<a href="/favorite/add?idUser=<%= req.session.User.id %>&idOrganization=<%= organization.id %>" class="btn btn-default" id="addToFavorites">
+					<span class="glyphicon glyphicon-star"></span> Añadir a favoritos
+				</a>
+			</div>
+		<% }else { if(req.session.User && req.session.User.rol == 0 && isFavorite){ %>
+			<div class="org-options">
+				<a href="/favorite/remove?idUser=<%= req.session.User.id %>&idOrganization=<%= organization.id %>" class="btn btn-warning" id="removeFavorite">
+					<span class="glyphicon glyphicon-star"></span> Eliminar de favoritos
+				</a>
+			</div>
+		<% }} %>
 	</div>
 	<div class="org-body">
 		<ul class="nav nav-tabs" role="tablist" id="orgOptions">
@@ -154,8 +167,3 @@
 	</div>
 	<% } %>
 </div>
-<script>
-  jQuery(function () {
-    jQuery('#orgOptions a:last').tab('show')
-  });
-</script>

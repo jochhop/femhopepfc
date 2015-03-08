@@ -65,6 +65,10 @@ module.exports.policies = {
   'admin' : {
     '*' : 'isAdmin',
     'index' : 'flash'
+  },
+
+  'favorites' : {
+    '*' : 'isUserOrAdmin'
   }
 
 };
