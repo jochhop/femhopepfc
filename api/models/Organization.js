@@ -2,7 +2,7 @@
  * Organization
  *
  * @module      :: Model
- * @description :: A short summary of how this model works and what it represents.
+ * @description :: Organization object that represents the organizations on the app.
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 

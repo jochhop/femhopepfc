@@ -1,8 +1,8 @@
 /**
- * User
+ * Favorite
  *
  * @module      :: Model
- * @description :: A short summary of how this model works and what it represents.
+ * @description :: Favorite object which represents the favorites organizations for the users on the app.
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 

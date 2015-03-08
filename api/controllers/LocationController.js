@@ -25,6 +25,13 @@ module.exports = {
    */
   _config: {},
 
+  /*
+  * Render the view with the locations collection
+  */
+  'index' : function(req, res){
+    res.view();
+  },
+
   /**
   * Import location database from a xml file
   */

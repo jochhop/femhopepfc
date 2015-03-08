@@ -80,6 +80,16 @@
               </ul>
             </li>
             <% }else{ %>
+            <% if(session.User.rol == 0){ %>
+              <li>
+                <a href="/user/messages?id=<%= session.User.id %>" title="Mensajes sin leer"><span class="glyphicon glyphicon-envelope"></span> <span class="badge message-counter"><%= session.messageCounter %></span></a>
+              </li>
+            <% } %>
+            <% if(session.User.rol == 1){ %>
+              <li>
+                <a href="/organization/messages?id=<%= session.User.id %>" title="Mensajes sin leer"><span class="glyphicon glyphicon-envelope"></span> <span class="badge message-counter"><%= session.messageCounter %></span></a>
+              </li>
+            <% } %> 
             <li class="dropdown">
               <% if(session.User.surname){ %>
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= session.User.name+' '+session.User.surname %> <span class="caret"></span></a>

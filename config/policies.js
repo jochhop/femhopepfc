@@ -51,24 +51,39 @@ module.exports.policies = {
   
   '*': 'flash',
 
-  'user' : {
+  UserController: {
     '*' : 'flash',
-    'index' : 'isAdmin',
-    'view' : 'isAuthenticated'
+    'index' : ['flash', 'isAdmin'],
+    'view' : ['flash', 'isAuthenticated']
   },
 
-  'session' : {
-    'destroy' : 'isAuthenticated',
-    '*' : 'flash'
+  SessionController: {
+    '*' : 'flash',
+    'destroy' : ['flash', 'isAuthenticated']
   },
 
-  'admin' : {
-    '*' : 'isAdmin',
-    'index' : 'flash'
+  AdminController: {
+    '*' : ['flash', 'isAdmin']
   },
 
-  'favorites' : {
-    '*' : 'isUserOrAdmin'
+  FavoriteController: {
+    '*' : 'flash', 
+    'index' : ['flash', 'isAdmin']
+  },
+
+  OrganizationController: {
+    '*' : 'flash',
+    'index' : ['flash', 'isAdmin']
+  },
+
+  MessageController: {
+    '*' : 'flash',
+    'index' : ['flash', 'isAdmin']
+  },
+
+  LocationController: {
+    '*' : 'flash',
+    'index' : ['flash', 'isAdmin']
   }
 
 };

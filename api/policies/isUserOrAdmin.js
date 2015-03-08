@@ -8,7 +8,7 @@
  *
  */
 module.exports = function(req, res, next) {
-
+	console.log(req.param('id'));
   // User is allowed, proceed to the next policy, 
   // or if this is the last policy, the controller
   if (req.session.User && req.session.User.rol == 2 || req.session.User && req.session.User.id == req.param('id')) {

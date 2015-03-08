@@ -115,34 +115,25 @@ jQuery(document).ready(function(){
 	}
 
 	/*
-		Add an organization to a favorites user
-		@param string idUser User that will have the organzation in favorites
-		@param string idOrganization Organization to add to favorites
+		Triggers for set as read a message
 	*/
-	function addToFavorites(idUser, idOrganization){
-		if(idUser && idOrganization){
+	jQuery('.read-message').on('click', function(){
+		var idMessage = jQuery(this).attr('id');
+		var idUser = jQuery(this).attr('user-id');
+		if(idMessage != ''){
 			jQuery.ajax({
-				url: '/favorite/add',
+				url: '/message/read',
 				type: 'post',
-				data: 'idUser='+idUser+'&idOrganization='+idOrganization,
+				data: 'idMessage='+idMessage+"&idUser="+idUser,
 				success: function(result) {
-					if(typeof(result['status']) !== 'undefined' && result['status'] == 'success'){
-						
-					}else{
-						alert("La organización no se pudo añadir a favoritos.");
+					if(typeof(result['status']) !== 'undefined' && result['status'] == 'ok'){
+						jQuery("#"+idMessage).removeClass("btn-primary");
+						jQuery("#"+idMessage).addClass("btn-default");
+						jQuery("#tr-"+idMessage).removeAttr("title");
+						jQuery(".message-counter").text(result['messagesCounter']);
 					}
 				}
 			});
 		}
-	}
-
-	/*
-		Triggers add favorite action to the button
-	*/
-	jQuery('#addToFavorites').on('click', function(){
-		var idUser = jQuery(this).attr('id-user');
-		var idOrganization = jQuery(this).attr('id-organization');
-
-		addToFavorites(idUser, idOrganization);
 	});
 });

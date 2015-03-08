@@ -1,0 +1,118 @@
+<%
+	function cutText(text){
+		if(text.length > 100){
+			return text.substring(0, 99) + "...";
+		}
+
+		return text;
+	}
+%>
+<div class="cms-page messages-page container-fluid">
+	<h2>Mensajes</h2>
+	<table class="table table-hover">
+		<thead>
+			<th>Tipo</th>
+			<th>De/A</th>
+			<th>Rol</th>
+			<th>Fecha</th>
+			<th>Asunto</th>
+			<th>Vista preliminar</th>
+			<th>Opciones</th>
+		</thead>
+		<tbody>
+			<% for(var i = 0 ; i < messages.length ; i++) { %>
+			<tr<% if(messages[i].isRead == false) { %> title="Mensaje no leído"<% } %> id="td-<%= messages[i].id %>">
+				<td>
+					<% if(messages[i].idSender == req.session.User.id) { %>
+						<span class="label label-default">Enviado<span class="glyphicon glyphicon-arrow-up"></span></span>
+					<% }else{ %>
+						<span class="label label-default"><span class="glyphicon glyphicon-arrow-down"></span>Recibido</span>
+					<% } %>
+				</td>
+				<td>
+					<% if(messages[i].idSender == req.session.User.id) { %>
+						<% if(messages[i].roleReceiver == 0){ %>
+							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/user/view/restricted?id=<%= messages[i].idReceiver %>"><%= messages[i].nameReceiver %>
+						<% } else { %>
+							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/organization/view?id=<%= messages[i].idReceiver %>"><%= messages[i].nameReceiver %>
+						<% } %>
+					<% }else{ %>
+						<% if(messages[i].roleSender == 0){ %>
+							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/user/view/restricted?id=<%= messages[i].idSender %>"><%= messages[i].nameSender %>
+						<% } else { %>
+							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/organization/view?id=<%= messages[i].idSender %>"><%= messages[i].nameSender %>
+						<% } %>
+					<% } %>
+				</td>		
+				<td>
+					<% if(messages[i].idSender == req.session.User.id) { %>
+						<% if(messages[i].roleReceiver == 0){ %>
+							<span class="label label-info">Usuario</span>
+						<% } else { %>
+							<span class="label label-info">Organización</span>
+						<% } %>
+					<% }else{ %>
+						<% if(messages[i].roleSender == 0){ %>
+							<span class="label label-info">Usuario</span>
+						<% } else { %>
+							<span class="label label-info">Organización</span>
+						<% } %>
+					<% } %>
+				</td>
+				<td style="min-width:150px;"><%= messages[i].sentDate.getDate() + "-" + messages[i].sentDate.getMonth() + "-" + messages[i].sentDate.getFullYear() + " " + messages[i].sentDate.getHours() + "h. " + messages[i].sentDate.getMinutes() + "m." %></td>
+				<td><%= messages[i].subject %></td>
+				<td title="<%= messages[i].message %>"><%= cutText(messages[i].message) %></td>
+				<td>
+					<a id="<%= messages[i].id %>" user-id="<%= session.User.id %>" class="btn<% if(messages[i].isRead == false){ %> btn-primary read-message<% } else { %> btn-default<% } %>" data-toggle="modal" data-target="#readMessage-<%= messages[i].id %>">Ver todo</a>
+				</td>
+			</tr>
+			<div class="modal fade" id="readMessage-<%= messages[i].id %>" tabindex="-1" role="dialog" aria-labelledby="myLabelMessage-<%= messages[i].id %>" aria-hidden="true">
+		  		<div class="modal-dialog">
+			    	<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+			        		<h4 class="modal-title" id="myLabelMessage-<%= messages[i].id %>">
+			        			Mensaje 
+			        			<% if(messages[i].idSender == req.session.User.id) { %>
+									para  
+								<% }else{ %>
+									de 
+								<% } %>
+								<% if(messages[i].idSender == req.session.User.id) { %>
+									<% if(messages[i].roleReceiver == 0){ %>
+										<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/user/view/restricted?id=<%= messages[i].idReceiver %>"><%= messages[i].nameReceiver %></a>
+									<% } else { %>
+										<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/organization/view?id=<%= messages[i].idReceiver %>"><%= messages[i].nameReceiver %></a>
+									<% } %>
+								<% }else{ %>
+									<% if(messages[i].roleSender == 0){ %>
+										<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/user/view/restricted?id=<%= messages[i].idSender %>"><%= messages[i].nameSender %></a>
+									<% } else { %>
+										<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/organization/view?id=<%= messages[i].idSender %>"><%= messages[i].nameSender %></a>
+									<% } %>
+								<% } %>
+								| <%= messages[i].sentDate.getDate() + "-" + messages[i].sentDate.getMonth() + "-" + messages[i].sentDate.getFullYear() + " " + messages[i].sentDate.getHours() + "h. " + messages[i].sentDate.getMinutes() + "m." %>
+			        		</h4>
+			      		</div>
+			      		<div class="modal-body">
+			      			<p>
+								<strong>Asunto:</strong>
+								<br/>
+								<%= messages[i].subject %>
+							</p>
+							<p>
+								<strong>Mensaje:</strong>
+								<br/>
+								<%= messages[i].message %>
+							</p>
+		      			</div>
+		      			<div class="modal-footer">
+				        	<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				     	</div>
+			    	</div>
+		  		</div>
+			</div>
+			<% } %>
+		</tbody>
+	</table>
+</div>

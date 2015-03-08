@@ -72,9 +72,13 @@ module.exports = {
             req.session.authenticated = true;
             req.session.User = organization;
 
-            backURL = req.header('Referer') || '/';
-            res.redirect(backURL);
-            return;
+            Message.find({'idReceiver' : organization.id, 'roleReceiver' : organization.rol, 'isRead' : false}, function(err, messages){
+              req.session.messageCounter = messages.length;
+              backURL = req.header('Referer') || '/';
+              res.redirect(backURL);
+              return;
+            });
+            
           });
 
         });
@@ -97,9 +101,12 @@ module.exports = {
     			req.session.authenticated = true;
     			req.session.User = user;
 
-    			backURL = req.header('Referer') || '/';
-          res.redirect(backURL);
-    			return;
+          Message.find({'idReceiver' : user.id, 'roleReceiver' : user.rol, 'isRead' : false}, function(err, messages){
+            req.session.messageCounter = messages.length;
+            backURL = req.header('Referer') || '/';
+            res.redirect(backURL);
+            return;
+          });
     		});
       }
   	});

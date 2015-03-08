@@ -2,7 +2,7 @@
  * Location
  *
  * @module      :: Model
- * @description :: A short summary of how this model works and what it represents.
+ * @description :: Location object which represents the adress of the users, organizations, etc.
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 

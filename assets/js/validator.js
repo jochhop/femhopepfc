@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
 	// validate signup form on keyup and submit
 	$("#registerUserForm").validate({
 		rules: {
@@ -73,6 +74,7 @@ $(document).ready(function() {
 			agree: "Para continuar, debe aceptar los términos y condiciones de Femhope."
 		}
 	});
+
 	// validate edit profile form on keyup and submit
 	$("#editUserForm").validate({
 		rules: {
@@ -134,6 +136,7 @@ $(document).ready(function() {
 			}
 		}
 	});
+
 	// validate signup form on keyup and submit
 	$("#registerOrganizationForm").validate({
 		rules: {
@@ -218,6 +221,7 @@ $(document).ready(function() {
 			agree: "Para continuar, debe aceptar los términos y condiciones de Femhope."
 		}
 	});
+
 	//validate edit profile form on keyup and submit
 	$("#editOrganizationForm").validate({
 		rules: {
@@ -289,6 +293,7 @@ $(document).ready(function() {
 			}
 		}
 	});
+
 	//login form validation
 	$("#loginForm").validate({
 		rules: {
@@ -305,6 +310,22 @@ $(document).ready(function() {
 			password: {
 				required: "Por favor, introducza una contraseña."
 			}
+		}
+	});
+
+	//send message form validation
+	$("#sendMessageForm").validate({
+		rules: {
+			subject: {
+				required: true
+			},
+			message: {
+				required: true
+			}
+		},
+		messages: {
+			subject: "Por favor introduczca el asunto.",
+			message: "Por favor escriba el mensaje."
 		}
 	});
 });

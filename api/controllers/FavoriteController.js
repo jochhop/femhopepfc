@@ -6,6 +6,12 @@
  */
 
 module.exports = {
+	/*
+	* Render the view with the favorites collection
+	*/
+	'index' : function(req, res){
+		res.view();
+	},
 
 	/**
 	* Adds an organization to user favorites
