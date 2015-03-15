@@ -198,6 +198,142 @@
 	// 	});
 	// },
 
+	// /*
+	// * Edit organization function
+	// */
+	// 'update' : function(req, res, next){
+	// 	if(req.session.User && (req.session.User.rol > 1 || req.session.User.id == req.param('organizationId'))){
+
+	// 		Organization.findOne().where({id : req.param('organizationId')}).then(function(organization){
+				
+	// 			if(organization){
+	// 				var uploadFile = req.file('avatar');
+
+	// 				uploadFile.upload({dirname : UPLOAD_PATH}, function onUploadComplete (err, files) {                                                         
+						
+	// 					if (err) return res.serverError(err);
+
+	// 					if(files.length > 0){
+	// 						var fileNameSplitted = files[0]['fd'].split("/");
+	// 						var fileName = fileNameSplitted[fileNameSplitted.length - 1];
+	// 					}else{
+	// 						var fileName = '';
+	// 					}
+
+	// 			        //direct params
+	// 			        organization.name = req.param('name');
+	// 			        organization.services = req.param('services');
+	// 			        organization.requiredPhone = req.param('requiredPhone');
+	// 			        organization.extraPhone = req.param('extraPhone');
+
+	// 			        var addressChanged = false;
+	// 			        if(req.param('number') != '' && req.param('number') != organization.number){
+	// 			        	organization.number = req.param('number');
+	// 			        	addressChanged = true;
+	// 			        }
+	// 			        if(req.param('address') != '' && req.param('address') != organization.address){
+	// 			        	organization.address = req.param('address');
+	// 			        	addressChanged = true;
+	// 			        }
+	// 			        if(req.param('province') != '' && req.param('province') != organization.province){
+	// 			        	organization.province = req.param('province');
+	// 			        	addressChanged = true;
+	// 			        }
+	// 			        if(req.param('city') != '' && req.param('city') != organization.city){
+	// 			        	organization.city = req.param('city');
+	// 			        	addressChanged = true;
+	// 			        }
+	// 			        if(req.param('postalCode') != '' && req.param('postalcode') != organization.postalCode){
+	// 			        	organization.postalCode = req.param('postalCode');
+	// 			        	addressChanged = true;
+	// 			        }
+
+	// 			        //address changed
+	// 			        if(addressChanged){
+	// 			        	var completAddress = organization.address+" "+organization.number+","+organization.country+","+organization.province+","+organization.city;
+	// 			        	var mapName = uuid.v4()+'.png';
+
+	// 			        	markers = [
+	// 			        		{ 'location': completAddress }
+	// 			        	]
+	// 			        	fs.unlink('assets/images/maps/' + organization.map, function (err) {
+	// 			        		if (err) throw err;
+	// 			        		console.log('successfully deleted '+UPLOAD_PATH + '/maps/' + organization.map);
+			        		
+	// 			        		util.puts(gmaps.staticMap(completAddress, 15, '640x400', function(err, data){
+	// 			        			if (err) return res.serverError(err);
+				        			
+	// 			        			var map = fs.writeFileSync('assets/images/maps/'+mapName, data, 'binary');
+
+	// 			        			gmaps.geocode(completAddress, function(err, data){
+	// 			        				organization.map = mapName;
+	// 			        				organization.latitude = data["results"][0]["geometry"]["location"]["lat"];
+	// 			        				organization.longitude = data["results"][0]["geometry"]["location"]["lng"];
+	// 			        				organization.save();
+	// 			        			});
+
+	// 		        			}, false, 'roadmap', markers));
+	// 		        		});
+	// 		        	}
+
+	// 			        //avatar
+	// 			        if(fileName != ''){
+	// 			        	if(organization.avatar != NO_USER_PHOTO){
+	// 			        		fs.unlink('assets/images/' + organization.avatar, function (err) {
+	// 			        			if (err) throw err;
+	// 			        			console.log('successfully deleted '+UPLOAD_PATH + '/' + organization.avatar);
+	// 			        		});
+	// 			        	}
+	// 			        	organization.avatar = fileName;
+	// 			        }
+
+	// 			        //organization saved
+	// 			        organization.save(function(err){
+	// 			        	if(err) {
+	// 			        		console.log(err);
+	// 			        		req.session.flash = {
+	// 			        			error: "La organización no ha podido ser editada"
+	// 			        		}
+	// 			        		res.redirect('/organization/view?id='+req.param('organizationId'));
+	// 			        		return;
+	// 			        	}
+	// 			        });
+
+	// 			        //changing password
+	// 			        if(req.param('password') && req.param('password') != '' && req.param('password') == req.param('passwordConfirmation')){
+				        	
+	// 			        	require('bcrypt').hash(req.param('password'), 10, function passwordEncripted(err, password){
+	// 			        		if(err) return next(err);
+
+	// 			        		organization.password = password;
+	// 			        		organization.passwordConfirmation = password;
+	// 			        		organization.save();
+	// 			        	});
+	// 			        }
+	// 		        	res.redirect('/organization/view?id='+req.param('organizationId'));
+	// 		        	return ;
+	// 		    	});
+	// 			}else{
+	// 				req.session.flash = {
+	// 					error: "La organización no se ha encontrado"
+	// 				}
+	// 				res.redirect('/');
+	// 				return;
+	// 			}
+
+	// 			req.session.flash = {
+	// 				success: "Organización editada correctamente, verás tus cambios aplicados cuando vuelvas a logearte"
+	// 			}
+	// 		});
+
+	// 	}else{
+	// 		req.session.flash = {
+	// 			error: "No tienes permisos para realizar esta acción."
+	// 		}
+	// 		res.redirect('/');
+	// 	}
+	// },
+
 	/*
 	* Edit organization function
 	*/
@@ -308,10 +444,15 @@
 				        		organization.password = password;
 				        		organization.passwordConfirmation = password;
 				        		organization.save();
-				        		res.redirect('/organization/view?id='+req.param('organizationId'));
 				        	});
 				        }
+
+				        if(req.session.User && req.session.User.id == organization.id){
+				        	req.session.User = organization;
+				        }
+
 			        	res.redirect('/organization/view?id='+req.param('organizationId'));
+			        	return ;
 			    	});
 				}else{
 					req.session.flash = {

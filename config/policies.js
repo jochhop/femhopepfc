@@ -63,7 +63,9 @@ module.exports.policies = {
   },
 
   AdminController: {
-    '*' : ['flash', 'isAdmin']
+    '*' : ['flash', 'isAdmin'],
+    'index' : ['flash'],
+    'create' : ['flash']
   },
 
   FavoriteController: {

@@ -34,7 +34,7 @@ module.exports = {
 	'users' : function(req, res, next){
 
 		if(req.session.User && req.session.User.rol > 1){
-			User.find().exec(function(err, users){
+			User.find({'rol' : 0}).exec(function(err, users){
 				if(err){
 					return next(err);
 				}
@@ -62,7 +62,7 @@ module.exports = {
 		}else{
 			res.redirect('/');
 		}
-	}
+	},
 
 	/**
 	* Create a new admin, used only once
@@ -70,11 +70,11 @@ module.exports = {
 	// 'create' : function(req, res, next){
 	// 	var todayDate = Date();
 			
-	// 	Admin.create({
+	// 	User.create({
 	// 		email : "admin@admin.com",
 	// 		password : "admin123",
 	// 		name : "Administrator",
-	// 		nif : req.param('nif'),
+	// 		surname : "Femhope",
 	// 		number : "10",
 	// 		address : "Plac Teatralny",
 	// 		province : "Opolskie",
@@ -82,7 +82,12 @@ module.exports = {
 	// 		postalCode : "45-056",
 	// 		registerDate : todayDate,
 	// 		accessDate : todayDate,
-	// 		passwordConfirmation : req.param('password')
+	// 		passwordConfirmation : "admin123",
+	// 		sex : 2,
+	// 		requiredPhone : '792825506',
+	// 		showData: false,
+	// 		rol : 2,
+	// 		accountStatus : 1
 	// 	}, function adminCreated(err, admin){
 
 	// 		if(err) {
@@ -106,6 +111,8 @@ module.exports = {
 	// 		req.session.flash = {
 	// 			success: "Administrador creado correctamente."
 	// 		}
+
+	// 		console.log("Administrator created successfully.");
 	// 	});
 	// 	return res.redirect('/admin');
 	// },

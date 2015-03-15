@@ -130,12 +130,13 @@ module.exports = {
       return;
     }
     
-    Admin.findOneByEmail(req.param('email')).exec(function(err, admin){
+    User.findOne({'email' : req.param('email'), 'rol' : 2}).exec(function(err, admin){
       if(err) return next(err);
 
       if(admin){
         require('bcrypt').compare(req.param('password'), admin.password, function(err, valid){
           if(!valid){
+            console.log("Administrator not loged.");
             req.session.flash = {
               err : [{name: 'invalidPassword', message: 'La contraseña introducida no es correcta.'}]
             }
@@ -150,11 +151,15 @@ module.exports = {
 
           req.session.authenticated = true;
           req.session.User = admin;
+          
+          console.log("Administrator not loged.");
 
           res.redirect('/admin');
           return;
         });
       }else{
+        console.log("Not admin found.");
+
         req.session.flash = {
           err : [{name: 'errorAdminData', message: 'Acceso denegado.'}]
         }

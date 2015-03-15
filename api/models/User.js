@@ -2,7 +2,7 @@
  * User
  *
  * @module      :: Model
- * @description :: User object tha representes the vitimcs on the app.
+ * @description :: User object that representes the vitimcs on the app.
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 

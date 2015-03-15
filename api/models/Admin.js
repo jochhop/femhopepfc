@@ -1,5 +1,5 @@
 /**
-* Admin.js
+* Admin
 *
 * @description :: Administrator object.
 * @docs        :: http://sailsjs.org/#!documentation/models
