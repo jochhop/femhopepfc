@@ -21,7 +21,7 @@
 		</thead>
 		<tbody>
 			<% for(var i = 0 ; i < messages.length ; i++) { %>
-			<tr<% if(messages[i].isRead == false) { %> title="Mensaje no leído"<% } %> id="td-<%= messages[i].id %>">
+			<tr id="td-<%= messages[i].id %>">
 				<td>
 					<% if(messages[i].idSender == req.session.User.id) { %>
 						<span class="label label-default">Enviado<span class="glyphicon glyphicon-arrow-up"></span></span>
@@ -32,13 +32,13 @@
 				<td>
 					<% if(messages[i].idSender == req.session.User.id) { %>
 						<% if(messages[i].roleReceiver == 0){ %>
-							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/user/view/restricted?id=<%= messages[i].idReceiver %>"><%= messages[i].nameReceiver %>
+							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/user/restricted?id=<%= messages[i].idReceiver %>"><%= messages[i].nameReceiver %>
 						<% } else { %>
 							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/organization/view?id=<%= messages[i].idReceiver %>"><%= messages[i].nameReceiver %>
 						<% } %>
 					<% }else{ %>
 						<% if(messages[i].roleSender == 0){ %>
-							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/user/view/restricted?id=<%= messages[i].idSender %>"><%= messages[i].nameSender %>
+							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/user/restricted?id=<%= messages[i].idSender %>"><%= messages[i].nameSender %>
 						<% } else { %>
 							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/organization/view?id=<%= messages[i].idSender %>"><%= messages[i].nameSender %>
 						<% } %>

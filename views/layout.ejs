@@ -37,6 +37,43 @@
     <link rel="stylesheet" href="/styles/local.css">
     <link rel="stylesheet" href="/styles/responsive.css">
     <!--STYLES END-->
+
+    <script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAU18qK_Ouq23XL7hYLK2vWhNq7ILDaUxA&sensor=false">
+    </script>
+    
+    <!--SCRIPTS-->
+    <script src="/js/dependencies/sails.io.js"></script>
+    <script src="/js/jquery-1.11.1.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/form-actions.js"></script>
+    <script src="/js/gmaps.js"></script>
+    <script src="/js/jquery-masks.js"></script>
+    <script src="/js/jquery-validator.js"></script>
+    <script src="/js/jquery-validatorextra.js"></script>
+    <script src="/js/masks.js"></script>
+    <script src="/js/validator.js"></script>
+    <!--SCRIPTS END-->
+    <% if(req.session.User && req.session.User != 2){ %>
+      <script type="text/javascript">
+          var getMessagesCounter = function() {
+              console.log("Request");
+              jQuery.ajax({
+                url: '/message/counter',
+                type: 'get',
+                success: function(result) {
+                  if(typeof(result['status']) !== 'undefined' && result['status'] == 'ok'){
+                    jQuery(".message-counter").text(result['messagesCounter']);
+                  }
+                }
+              });
+          };
+
+          var interval = 1000 * 60 * 1;
+
+          setInterval(getMessagesCounter, interval);
+      </script>
+    <% } %>
   </head>
 
   <body>
@@ -82,12 +119,12 @@
             <% }else{ %>
             <% if(session.User.rol == 0){ %>
               <li>
-                <a href="/user/messages?id=<%= session.User.id %>" title="Mensajes sin leer"><span class="glyphicon glyphicon-envelope"></span> <span class="badge message-counter"><%= session.messageCounter %></span></a>
+                <a href="/user/messages?id=<%= session.User.id %>" title="Mensajes sin leer"><span class="glyphicon glyphicon-envelope"></span> <span class="badge message-counter"><%= session.messagesCounter %></span></a>
               </li>
             <% } %>
             <% if(session.User.rol == 1){ %>
               <li>
-                <a href="/organization/messages?id=<%= session.User.id %>" title="Mensajes sin leer"><span class="glyphicon glyphicon-envelope"></span> <span class="badge message-counter"><%= session.messageCounter %></span></a>
+                <a href="/organization/messages?id=<%= session.User.id %>" title="Mensajes sin leer"><span class="glyphicon glyphicon-envelope"></span> <span class="badge message-counter"><%= session.messagesCounter %></span></a>
               </li>
             <% } %> 
             <li class="dropdown">
@@ -206,22 +243,6 @@
           + Use a different preprocessor, like TypeScript
 
     -->
-    <script type="text/javascript"
-      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAU18qK_Ouq23XL7hYLK2vWhNq7ILDaUxA&sensor=false">
-    </script>
-
-    <!--SCRIPTS-->
-    <script src="/js/dependencies/sails.io.js"></script>
-    <script src="/js/jquery-1.11.1.min.js"></script>
-    <script src="/js/bootstrap/bootstrap.min.js"></script>
-    <script src="/js/form-actions.js"></script>
-    <script src="/js/geolocator.js"></script>
-    <script src="/js/gmaps.js"></script>
-    <script src="/js/jquery-masks.js"></script>
-    <script src="/js/jquery-validator.js"></script>
-    <script src="/js/jquery-validatorextra.js"></script>
-    <script src="/js/masks.js"></script>
-    <script src="/js/validator.js"></script>
-    <!--SCRIPTS END-->
+    
   </body>
 </html>

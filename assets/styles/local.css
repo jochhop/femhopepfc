@@ -129,6 +129,16 @@ label{
 	margin-left: 5px;
 }
 /*%%%%%%%%%%%%%%%%%%%%%%%*/
+.restricted{
+	padding-top: 50px;
+}
+.restricted .avatar img{
+	width:100%;
+}
+.restricted .nav li{
+	padding: 5px 0px;
+}
+/*%%%%%%%%%%%%%%%%%%%%%%%*/
 .messages{
 	margin-bottom: 0px;
 	border-radius: 0px;

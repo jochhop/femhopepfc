@@ -1,0 +1,89 @@
+<div class="cms-page restricted container-fluid">
+	<% if (user.showData){ %>
+	<div class="row form">
+        <div class="col-md-3 hidden-xs"></div>
+        <div class="col-md-6">
+        	<div class="col-md-4 col-xs-12 avatar"><img src="/images/<%= user.avatar %>" alt="User photo" /></div>
+        	<div class="col-md-8 col-xs-12">
+        		<ul class="nav">
+        			<li>
+        				<span class="glyphicon glyphicon-user"></span> <%= user.name %> <%= user.surname %>
+        			</li>
+        			<li>
+        				<span class="glyphicon glyphicon-home"></span>
+        				<%= user.address+", "+user.number+". "+user.city+" ("+user.province+")"+", CP: "+user.postalCode %>
+        			</li>
+        			<li>
+        				<span class="glyphicon glyphicon-phone"></span>
+        				<%= user.requiredPhone %>
+        				<% if(user.extraPhone){ %>
+        					, <%= user.extraPhone %>
+        				<% } %>
+        			</li>
+        			<li>
+        				<span class="glyphicon glyphicon-envelope"></span>
+        				<%= user.email %>
+        			</li>
+        			<li>
+        				<button title="Enviar un mensaje" class="btn btn-info" data-toggle="modal" data-target="#sendMessage">
+							<span class="glyphicon glyphicon-envelope"></span>
+						</button>
+        			</li>
+        		</ul>
+        	</div>
+        </div>
+        <div class="col-md-3 hidden-xs"></div>
+    </div>
+
+	<% } else { %>
+		Este usuario ha restringido sus datos. 
+		Sólo podrá enviarle un mensaje privado si lo desea haciendo click <a href="#" data-toggle="modal" data-target="#sendMessage">aquí</a>.
+		¿Este usuario es sospechoso? repórtalo haciendo click aquí.
+	<% } %>
+</div>
+<div class="modal fade" id="sendMessage" tabindex="-1" role="dialog" aria-labelledby="myLabelMessage" aria-hidden="true">
+	<div class="modal-dialog">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancelar</span></button>
+        		<h4 class="modal-title" id="myLabelMessage">Enviar mensaje</h4>
+      		</div>
+      		<div class="modal-body">
+				<form method="POST" action="/message/send" id="sendMessageForm">
+					<div class="row form-horizontal">
+						<div class="col-md-12">
+	                        <div class="form-group">
+	                            <label for="number" class="col-sm-3 control-label">Asunto<em>*</em></label>
+	                            <div class="col-sm-9">
+	                                <input type="text" class="form-control input-sm" name="subject" id="subject" placeholder="Asunto*">
+	                            </div>
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="message" class="col-sm-3 control-label">Mensaje<em>*</em></label>
+	                            <div class="col-sm-9">
+	                                <textarea class="form-control" id="message" name="message" placeholder="Escribe aquí tu mensaje"></textarea>
+	                            </div>
+	                        </div>
+	                        <div class="form-group">
+	                            <div class="col-sm-offset-3 col-sm-9">
+	                                <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;&nbsp; Enviar mensaje</button>
+	                            </div>
+	                        </div>
+	                        <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+	                        <input type="hidden" name="idReceiver" value="<%= user.id %>" />
+	                        <input type="hidden" name="roleReceiver" value="<%= user.rol %>" />
+	                        <input type="hidden" name="nameReceiver" value="<%= user.name %>" />
+	                        <input type="hidden" name="idSender" value="<%= req.session.User.id %>" />
+	                        <input type="hidden" name="roleSender" value="<%= req.session.User.rol %>" />
+	                        <input type="hidden" name="nameSender" value="<%= req.session.User.name %>" />
+						</div>
+					</div>
+				</form>
+
+  			</div>
+  			<div class="modal-footer">
+	        	<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+	     	</div>
+    	</div>
+	</div>
+</div>

@@ -513,21 +513,22 @@
 	*/
 	'messages' : function(req, res, next){
 		if(req.session.User && req.session.User.rol == 2 || req.session.User.id == req.param('id')){
-		  Message.find({$or : [{'idSender' : req.param('id'), 'roleSender' : 1}, {'idReceiver' : req.param('id'), 'roleReceiver' : 1}]}).sort([['sentDate', 1]]).exec(function foundMessages(err, messages){
-		    if(err) return next(err);
+			var messagesObj = [];
 
-		    res.view({
-		      messages : messages
-		    });
+		  	Message.find({$or : [{'idSender' : req.param('id'), 'roleSender' : 1}, {'idReceiver' : req.param('id'), 'roleReceiver' : 1}]}).sort([['sentDate', 1]]).exec(function foundMessages(err, messages){
+			    if(err) return next(err);
 
-		  });
+			    res.view({
+		      		messages : messages
+		    	});
+		  	});
 		}else{
 		  req.session.flash = {
 		    error: "No tienes permisos para realizar esta acción."
 		  }
 		  res.redirect('/');
 		}
-	},
+	},	
 
 	/*
 	* Get 10 organizations searched by name

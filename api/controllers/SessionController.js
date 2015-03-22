@@ -73,7 +73,7 @@ module.exports = {
             req.session.User = organization;
 
             Message.find({'idReceiver' : organization.id, 'roleReceiver' : organization.rol, 'isRead' : false}, function(err, messages){
-              req.session.messageCounter = messages.length;
+              req.session.messagesCounter = messages.length;
               backURL = req.header('Referer') || '/';
               res.redirect(backURL);
               return;
@@ -102,7 +102,7 @@ module.exports = {
     			req.session.User = user;
 
           Message.find({'idReceiver' : user.id, 'roleReceiver' : user.rol, 'isRead' : false}, function(err, messages){
-            req.session.messageCounter = messages.length;
+            req.session.messagesCounter = messages.length;
             backURL = req.header('Referer') || '/';
             res.redirect(backURL);
             return;

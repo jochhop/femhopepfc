@@ -358,6 +358,24 @@ module.exports = {
         }
     },
 
+    /*
+    * Restricted user view for the rest of the organizations
+    */
+    'restricted' : function(req, res, next){
+        if(req.session.User && req.session.User.rol == 1){
+            User.findOne(req.param('id'), function foundUser(err, user){
+                if(err) return next(err);
+                if(!user) return next();
+                
+                res.view({
+                    user : user
+                });
+            });
+        }else{
+
+        }
+    },
+
     /**
     * Renders the favorites list
     */

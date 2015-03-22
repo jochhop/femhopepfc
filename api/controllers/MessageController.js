@@ -93,7 +93,7 @@ module.exports = {
 						res.send({'status' : 'error'});
 					} else {
 						Message.find({'idReceiver' : req.session.User.id, 'roleReceiver' : req.session.User.rol, 'isRead' : false}, function(err, messages){
-							req.session.messageCounter = messages.length;
+							req.session.messagesCounter = messages.length;
 							res.send({'status' : 'ok', 'messagesCounter' : messages.length});
 						});
 					}
@@ -103,6 +103,16 @@ module.exports = {
 		}else{
 			res.send({'status' : 'error'});
 		}
+	},
+
+	/*
+	* Get unread messages for the current user
+	*/
+	'counter' : function(req, res){
+		Message.find({'idReceiver' : req.session.User.id, 'roleReceiver' : req.session.User.rol, 'isRead' : false}, function(err, messages){
+			req.session.messagesCounter = messages.length;
+			res.send({'status' : 'ok', 'messagesCounter' : messages.length});
+		});
 	}
 };
 
