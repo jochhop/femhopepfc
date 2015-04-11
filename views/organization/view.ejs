@@ -10,19 +10,29 @@
 					<span class="glyphicon glyphicon-edit"></span> Editar perfil
 				</button>
 			<% } %>
+			<% if((req.session.User && req.session.User.id == organization.id)){ %>
+				<a  class="btn btn-info" href="/organization/addsuborg">
+					<span class="glyphicon glyphicon-plus"></span> Suborganización
+				</a>
+			<% } %>
 			<% if(req.session.User && req.session.User.rol == 0 && !isFavorite){ %>
-				<a href="/favorite/add?idUser=<%= req.session.User.id %>&idOrganization=<%= organization.id %>" class="btn btn-default" id="addToFavorites">
-					<span class="glyphicon glyphicon-star"></span> Añadir a favoritos
+				<a href="/favorite/add?idUser=<%= req.session.User.id %>&idOrganization=<%= organization.id %>" class="btn btn-default" id="addToFavorites" title="Añadir a favoritos">
+					<span class="glyphicon glyphicon-star"></span>
 				</a>
 			<% }else { if(req.session.User && req.session.User.rol == 0 && isFavorite){ %>
-				<a href="/favorite/remove?idUser=<%= req.session.User.id %>&idOrganization=<%= organization.id %>" class="btn btn-warning" id="removeFavorite">
-					<span class="glyphicon glyphicon-star"></span> Eliminar de favoritos
+				<a href="/favorite/remove?idUser=<%= req.session.User.id %>&idOrganization=<%= organization.id %>" class="btn btn-warning" id="removeFavorite" title="Eliminar de favoritos">
+					<span class="glyphicon glyphicon-star"></span>
 				</a>
 			<% }} %>
 			<% if(req.session.User && req.session.User.id != organization.id){ %>
 				<button title="Enviar un mensaje" class="btn btn-info" data-toggle="modal" data-target="#sendMessage">
 					<span class="glyphicon glyphicon-envelope"></span>
 				</button>
+			<% } %>
+			<% if(organization.headquarter){ %>
+				<a title="Ir a la sede principal" class="btn btn-info" href="/organization/view/?id=<%= organization.headquarter %>">
+					<span class="glyphicon glyphicon-globe"></span> Sede principal
+				</a>
 			<% } %>
 		</div>
 	</div>

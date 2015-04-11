@@ -134,6 +134,22 @@ module.exports = {
       defaultsTo : '0'
     },
 
+    headquarter :{
+      type : 'string'
+    },
+
+    twitter : {
+      type : 'string'
+    },
+
+    facebook : {
+      type : 'string'
+    },
+
+    googleplus : {
+      type : 'string'
+    },
+
     toJSON : function(){
       var obj = this.toObject();
       delete obj.password;

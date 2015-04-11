@@ -36,9 +36,15 @@
     </div>
 
 	<% } else { %>
-		Este usuario ha restringido sus datos. 
-		Sólo podrá enviarle un mensaje privado si lo desea haciendo click <a href="#" data-toggle="modal" data-target="#sendMessage">aquí</a>.
-		¿Este usuario es sospechoso? repórtalo haciendo click aquí.
+		<div class="row form">
+	        <div class="col-md-3 hidden-xs"></div>
+	        <div class="col-md-6">
+				Este usuario ha restringido sus datos. 
+				Sólo podrá enviarle un mensaje privado si lo desea haciendo click <a href="#" data-toggle="modal" data-target="#sendMessage">aquí</a>.
+				¿Este usuario es sospechoso? repórtalo haciendo click aquí.
+			</div>
+        	<div class="col-md-3 hidden-xs"></div>
+    	</div>
 	<% } %>
 </div>
 <div class="modal fade" id="sendMessage" tabindex="-1" role="dialog" aria-labelledby="myLabelMessage" aria-hidden="true">

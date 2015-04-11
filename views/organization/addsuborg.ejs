@@ -1,0 +1,155 @@
+<div class="cms-page register-page container-fluid">
+    <h1>Regístra una suborganización</h1>
+    <form method="POST" action="/organization/createsub" id="registerOrganizationForm" enctype="multipart/form-data">
+        <div class="row form-horizontal">
+            <div class="col-md-6">
+                <div class="tile">
+                    <div class="tile-title"><h2>Sobre la organización</h2></div>
+                    <div class="tile-content">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-3 control-label">Nombre org.<em>*</em></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control input-sm" name="name" id="name" placeholder="Nombre de la organización*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="col-sm-3 control-label">Email<em>*</em></label>
+                            <div class="col-sm-9">
+                                <input type="email" class="form-control input-sm" name="email" id="email" placeholder="ejemplo@ejemplo.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="col-sm-3 control-label">Contraseña<em>*</em></label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control input-sm" id="password" name="password" placeholder="Contraseña*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="passwordConfirmation" class="col-sm-3 control-label">Rep. contraseña<em>*</em></label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control input-sm" id="passwordConfirmation" name="passwordConfirmation" placeholder="Repita contraseña*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="avatar">Logo</label>
+                            <div class="col-sm-9">
+                                <input class="form-control input-sm" type="file" id="avatar" name="avatar" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="tile">
+                    <div class="tile-title"><h2>Información de la organización</h2></div>
+                    <div class="tile-content">
+                        <div class="form-group">
+                            <label for="nif" class="col-sm-3 control-label">NIF<em>*</em></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control input-sm nif" name="nif" id="nif" placeholder="NIF de la organización*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="services" class="col-sm-3 control-label">Servicios ofr.<em>*</em></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control input-sm" name="services" id="services" placeholder="Servicios ofrecidos*">
+                                <span class="help-block">
+                                    <button type="button" class="btn btn-link popover-dismiss" data-toggle="popover" data-placement="top" title="Escribe los servicios que ofrece la organización separados por comas, por ejemplo: Apoyo económico, apoyo psicológico.">Más información sobre servicios ofrecidos</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="description">Descripción<em>*</em></label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control input-sm" id="description" name="description"></textarea>
+                                <span class="help-block">
+                                    <button type="button" class="btn btn-link popover-dismiss" data-toggle="popover" data-placement="top" title="Escribe algo que pueda darnos información y verificar que no intentas crear una cuenta falsa, puedes darnos una web, la histora de como empezó la organización... etc. nosotros comprobaremos la información y, si es correcta activaremos tu cuenta y podrás usar nuestros servicios.">Más información sobre la descripción</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row form-horizontal">
+            <div class="col-md-6">
+                <div class="tile">
+                    <div class="tile-title"><h2>Dirección</h2></div>
+                    <div class="tile-content">
+                        <div class="form-group">
+                            <label for="postalCode" class="col-sm-2 control-label">C.P.<em>*</em></label>
+                            <div class="col-sm-5">
+                                <input type="text" name="postalCode" id="postalCode" class="form-control input-sm cep"  placeholder="Código postal*">
+                                <span class="error" id="pcodeerror" style="display:none;">Código postal erróneo</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="province" class="col-sm-2 control-label">Provincia<em>*</em></label>
+                            <div class="col-sm-10">
+                                <select name="province" id="province" class="form-control input-sm" disabled="disabled">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="city" class="col-sm-2 control-label">Ciudad<em>*</em></label>
+                            <div class="col-sm-10">
+                                <select name="city" id="city" class="form-control input-sm" disabled="disabled">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="address" class="col-sm-2 control-label">Calle<em>*</em></label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control input-sm" name="address" id="address" placeholder="Calle*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="number" class="col-sm-2 control-label">Número<em>*</em></label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control input-sm" name="number" id="number" placeholder="Número*">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="tile">
+                    <div class="tile-title"><h2>Teléfonos y confirmación</h2></div>
+                    <div class="tile-content">
+                        <div class="form-group">
+                            <label for="requiredPhone" class="col-sm-2 control-label">Teléfono<em>*</em></label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control input-sm phone" id="requiredPhone" name="requiredPhone" placeholder="Teléfono oficial*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="extraPhone" class="col-sm-2 control-label">Otro tlf.</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control input-sm phone" id="extraPhone" name="extraPhone" placeholder="Otro">
+                                <span class="help-block">
+                                    <button type="button" class="btn btn-link popover-dismiss" data-toggle="popover" data-placement="top" title="Información sobre los teléfonos" data-content="En el primer campo debe introducir un teléfono con el cual podamos contactar con usted siempre que sea posible. El segundo campo es opcional y sólo se usará en caso de que no podamos localizarle con el primero.">Más información sobre los teléfonos</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input id="agree" name="agree" type="checkbox"> Aceptar las condiciones<em>*</em>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-info">Enviar datos</button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </form>
+</div>
+

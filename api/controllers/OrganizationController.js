@@ -35,6 +35,13 @@
 	},
 
 	/**
+	* Render the view for add a new suborganization
+	*/
+	'addsuborg' :  function(req, res){
+		res.view();
+	},
+
+	/**
 	* Create new organization action
 	*/
 	'create' : function(req, res, next){
@@ -73,6 +80,84 @@
 				registerDate : todayDate,
 				accessDate : todayDate,
 				passwordConfirmation : req.param('passwordConfirmation')
+			}, function organizationCreated(err, organization){
+
+				if(err) {
+					console.log(err);
+
+					req.session.flash = {
+						err: err
+					}                    
+
+					return res.redirect('/');
+				}
+
+				var completAddress = organization.address+" "+organization.number+","+organization.country+","+organization.province+","+organization.city;
+				
+				markers = [
+					{ 'location': completAddress }
+				]
+
+				util.puts(gmaps.staticMap(completAddress, 15, '640x400', function(err, data){
+					if (err) return res.serverError(err);
+					
+					var map = fs.writeFileSync('assets/images/maps/'+mapName, data, 'binary');
+					
+					gmaps.geocode(completAddress, function(err, data){
+						organization.latitude = data["results"][0]["geometry"]["location"]["lat"];
+						organization.longitude = data["results"][0]["geometry"]["location"]["lng"];
+						organization.save();
+					});
+					
+					req.session.flash = {
+						success: "Usuario creado correctamente, para acceder a su cuenta por favor, introduzca su email y su contraseña en la barra superior."
+					}
+				}, false, 'roadmap', markers));
+			});
+		});
+		return res.redirect('/');
+	},
+
+	/**
+	* Create new sub organization action
+	*/
+	'createsub' : function(req, res, next){
+		var todayDate = Date();
+		var uploadFile = req.file('avatar');
+
+		uploadFile.upload({dirname : UPLOAD_PATH}, function onUploadComplete (err, files) {                                                         
+			
+			if (err) return res.serverError(err);
+
+			if(files.length > 0){
+				var fileNameSplitted = files[0]['fd'].split("/");
+				var fileName = fileNameSplitted[fileNameSplitted.length - 1];
+			}else{
+				var fileName = NO_USER_PHOTO;
+			}
+
+			var mapName = uuid.v4()+'.png';
+			
+			Organization.create({
+				email : req.param('email'),
+				password : req.param('password'),
+				name : req.param('name'),
+				nif : req.param('nif'),
+				services : req.param('services'),
+				description : req.param('description'),
+				avatar : fileName,
+				map : mapName,
+				number : req.param('number'),
+				address : req.param('address'),
+				province : req.param('province'),
+				city : req.param('city'),
+				postalCode : req.param('postalCode'),
+				requiredPhone : req.param('requiredPhone'),
+				extraPhone : req.param('extraPhone'),
+				registerDate : todayDate,
+				accessDate : todayDate,
+				passwordConfirmation : req.param('passwordConfirmation'),
+				headquarter : req.session.User.id
 			}, function organizationCreated(err, organization){
 
 				if(err) {

@@ -75,7 +75,9 @@ module.exports.policies = {
 
   OrganizationController: {
     '*' : 'flash',
-    'index' : ['flash', 'isAdmin']
+    'index' : ['flash', 'isAdmin'],
+    'addsuborg' : 'isOrganization',
+    'createsub' : 'isOrganization'
   },
 
   MessageController: {
