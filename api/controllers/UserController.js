@@ -453,15 +453,15 @@ module.exports = {
     */
     'messages' : function(req, res, next){
         if(req.session.User && req.session.User.rol == 2 || req.session.User.id == req.param('id')){
-            Message.find({'$or' : [{'idSender' : req.param('id'), 'roleSender' : 0}, {'idReceiver' : req.param('id'), 'roleReceiver' : 0}]}).sort([['sentDate', 1]], function foundMessages(err, messages){
+            Message.find({$or : [{'idSender' : req.param('id'), 'roleSender' : 0}, {'idReceiver' : req.param('id'), 'roleReceiver' : 0}]}).sort([['sentDate', 1]]).exec(function foundMessages(err, messages){
                 if(err) return next(err);
-
                 res.view({
                     messages : messages
                 });
 
             });
         }else{
+            console.log("no pasa elif");
             req.session.flash = {
                 error: "No tienes permisos para realizar esta acción."
             }

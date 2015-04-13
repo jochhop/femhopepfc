@@ -36,21 +36,27 @@
 			<% } %>
 		</div>
 	</div>
-	<div class="org-body">
-		<ul class="nav nav-tabs" role="tablist" id="orgOptions">
-		  <li role="presentation" class="active"><a href="#home" role="tab" data-toggle="tab">Home</a></li>
-		  <li role="presentation"><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
-		  <li role="presentation"><a href="/organization/messages?id=<%= organization.id %>">Messages</a></li>
-		  <li role="presentation"><a href="#settings" role="tab" data-toggle="tab">Settings</a></li>
-		</ul>
-
-		<div class="tab-content">
-		  <div role="tabpanel" class="tab-pane active" id="home">
-		  	
-		  </div>
-		  <div role="tabpanel" class="tab-pane" id="profile">.2.</div>
-		  <div role="tabpanel" class="tab-pane" id="messages">.3..</div>
-		  <div role="tabpanel" class="tab-pane" id="settings">..4.</div>
+	<div class="org-body row">
+		<div class="col-md-8">
+			<ul class="list-group tile">
+				<li class="list-group-item tile-title" title="Dirección">
+					<h2>Información de contacto</h2>
+				</li>
+				<li class="list-group-item" title="Dirección"><span class="glyphicon glyphicon-home"></span> <%= organization.address + " " + organization.number + ", " + organization.city + " (" + organization.province + ")" + " - " + organization.postalCode %></li>
+				<li class="list-group-item" title="NIF"><span class="glyphicon glyphicon-credit-card"></span> <%= organization.nif %></li>
+				<li class="list-group-item" title="Teléfono"><span class="glyphicon glyphicon-phone-alt"></span> <%= organization.requiredPhone %></li>
+				<% if(organization.extraPhone) { %>
+					<li class="list-group-item" title="Teléfono opcional"><span class="glyphicon glyphicon-earphone"></span> <%= organization.extraPhone %></li>
+				<% } %>
+				<li class="list-group-item"><span class="glyphicon glyphicon-envelope"></span> <a href="mailto:<%= organization.email %>"><%= organization.email %></a></li>
+			</ul>
+		</div>
+		<div class="col-md-4">
+			<ul class="list-group tile">
+				<li class="list-group-item tile-title" title="Dirección">
+					<h2>Más información en</h2>
+				</li>
+			</ul>
 		</div>
 	</div>
 	<% if((req.session.User && req.session.User.id == organization.id) || (req.session.User && req.session.User.rol == 2)){ %>
