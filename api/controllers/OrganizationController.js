@@ -672,6 +672,37 @@
 				res.redirect('/admin/organizations');
 			});
 		}
+	},
+
+	/**
+	* Edit the social networks links from an organization
+	*/
+	'editsocial' : function(req, res, next){
+		if(req.session && req.session.User.rol >= 1){
+			Organization.findOne(req.session.User.id, function foundOrganization(err, organization){
+				if(err) return next(err);
+
+				if(!organization) return next();
+
+				var facebook = req.param('facebook');
+				var twitter = req.param('twitter');
+				var googleplus = req.param('googleplus');
+
+				organization.facebook = facebook ? facebook : undefined;
+				organization.twitter = twitter ? twitter : undefined;
+				organization.googleplus = googleplus ? googleplus : undefined;
+
+				organization.save();
+
+				req.session.flash = {
+					success: "Redes sociales editadas correctamente."
+				}
+
+				res.redirect('/organization/view?id='+organization.id);
+			});
+		}else{
+			res.redirect('/');
+		}
 	}
 };
 

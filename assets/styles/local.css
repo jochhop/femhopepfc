@@ -257,9 +257,9 @@ label{
 }
 .org-body{
 	position: relative;
-	top:275px;
 	max-width: 1200px;
 	margin:0 auto;
+	margin-top:275px;
 }
 .org-body .list-group{
 	border: 1px solid gray;
@@ -273,6 +273,16 @@ label{
 }
 .org-body .list-group li{
 	border: none;
+}
+.org-body .tile-title{
+	margin-bottom: 0px;
+}
+.list-group-item.center{
+	text-align: center;
+}
+.social-image{
+	width:50px;
+	margin: 0 auto;
 }
 /*%%%%%%%%%%%%%%%%%%%%%%%*/
 .mini-map{

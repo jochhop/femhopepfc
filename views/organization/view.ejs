@@ -52,11 +52,42 @@
 			</ul>
 		</div>
 		<div class="col-md-4">
-			<ul class="list-group tile">
-				<li class="list-group-item tile-title" title="Dirección">
-					<h2>Más información en</h2>
-				</li>
-			</ul>
+			<% 
+				if(	organization.twitter != undefined || organization.facebook != undefined || organization.googleplus != undefined
+				|| (req.session.User && req.session.User.rol == 1 && organization.id == req.session.User.id)){ 
+			%>
+				<ul class="list-group tile">
+					<li class="list-group-item tile-title" title="Dirección">
+						<h2>
+							Más información en 
+							<% if(req.session.User && req.session.User.rol == 1 && organization.id == req.session.User.id){ %>
+							<a data-toggle="modal" data-target="#editSocial" title="Editar redes sociales"><span class="glyphicon glyphicon-pencil"></span></a>
+							<% } %>
+						</h2>
+					</li>
+					<% if(organization.facebook != undefined) { %>
+						<li class="list-group-item center">
+							<a target="_blank" href="<%= organization.facebook %>">
+								<img class="social-image" src="/images/facebook.png" title="Perfil en Facebook" />
+							</a>
+						</li>
+					<% } %>
+					<% if(organization.twitter != undefined) { %>
+						<li class="list-group-item center">
+							<a target="_blank" href="<%= organization.twitter %>">
+								<img class="social-image" src="/images/twitter.png" title="Perfil en Twitter" />
+							</a>
+						</li>
+					<% } %>
+					<% if(organization.googleplus != undefined) { %>
+						<li class="list-group-item center">
+							<a target="_blank" href="<%= organization.googleplus %>">
+								<img class="social-image" src="/images/googleplus.png" title="Perfil en Google+" />
+							</a>
+						</li>
+					<% } %>
+				</ul>
+			<% } %>
 		</div>
 	</div>
 	<% if((req.session.User && req.session.User.id == organization.id) || (req.session.User && req.session.User.rol == 2)){ %>
@@ -219,6 +250,54 @@
 			                        <input type="hidden" name="idSender" value="<%= req.session.User.id %>" />
 			                        <input type="hidden" name="roleSender" value="<%= req.session.User.rol %>" />
 			                        <input type="hidden" name="nameSender" value="<%= req.session.User.name %>" />
+								</div>
+							</div>
+						</form>
+
+	      			</div>
+	      			<div class="modal-footer">
+			        	<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+			     	</div>
+		    	</div>
+	  		</div>
+		</div>
+	<% } %>
+	<% if(req.session.User && req.session.User.id == organization.id){ %>
+		<div class="modal fade" id="editSocial" tabindex="-1" role="dialog" aria-labelledby="myLabelMessage" aria-hidden="true">
+	  		<div class="modal-dialog">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancelar</span></button>
+		        		<h4 class="modal-title" id="myLabelMessage">Tus redes sociales</h4>
+		      		</div>
+		      		<div class="modal-body">
+						<form method="POST" action="/organization/editsocial" id="editSocialForm">
+							<div class="row form-horizontal">
+								<div class="col-md-12">
+			                        <div class="form-group">
+			                            <label for="facebbok" class="col-sm-3 control-label">Facebook</label>
+			                            <div class="col-sm-9">
+			                                <input type="text" class="form-control input-sm" name="facebook" id="facebook" placeholder="Facebook link" value="<%= organization.facebook != undefined ? organization.facebook : '' %>" />
+			                            </div>
+			                        </div>
+			                        <div class="form-group">
+			                            <label for="twitter" class="col-sm-3 control-label">Twitter</label>
+			                            <div class="col-sm-9">
+			                                <input type="text" class="form-control input-sm" name="twitter" id="twitter" placeholder="Twitter link" value="<%= organization.twitter != undefined ? organization.twitter : '' %>" />
+			                            </div>
+			                        </div>
+			                        <div class="form-group">
+			                            <label for="googleplus" class="col-sm-3 control-label">Google+</label>
+			                            <div class="col-sm-9">
+			                                <input type="text" class="form-control input-sm" name="googleplus" id="googleplus" placeholder="Google+ link" value="<%= organization.googleplus != undefined ? organization.googleplus : '' %>" />
+			                            </div>
+			                        </div>
+			                        <div class="form-group">
+			                            <div class="col-sm-offset-3 col-sm-9">
+			                                <button type="submit" class="btn btn-info">Guardar cambios</button>
+			                            </div>
+			                        </div>
+			                        <input type="hidden" name="_csrf" value="<%= _csrf %>" />
 								</div>
 							</div>
 						</form>
