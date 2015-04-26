@@ -1,0 +1,110 @@
+<%
+	function cutText(text){
+		if(text.length > 100){
+			return text.substring(0, 99) + "...";
+		}
+
+		return text;
+	}
+%>
+<div class="cms-page reports-page container admin">
+	<ul class="nav nav-tabs" role="tablist">
+		<li>
+			<a href="/admin/users">Gestión de usuarios</a>
+		</li>
+		<li>
+			<a href="/admin/organizations">Gestión de organizaciones</a>
+		</li>
+		<li class="active">
+			<a>Gestión de reportes</a>
+		</li>
+	</ul>
+	<table class="table table-hover" id="reports_table">
+		<thead>
+			<th>De</th>
+			<th>A</th>
+			<th>Fecha</th>
+			<th>Asunto</th>
+			<th>Motivo</th>
+			<th>Opciones</th>
+		</thead>
+		<tbody>
+			<% for(var i = 0 ; i < reports.length ; i++) { %>
+			<tr id="td-<%= reports[i].id %>">
+				<td>
+					<% if(reports[i].roleSender == 0){ %>
+						<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/user/restricted?id=<%= reports[i].idSender %>"><%= reports[i].nameSender %></a>
+					<% } else { %>
+						<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/organization/view?id=<%= reports[i].idSender %>"><%= reports[i].nameSender %></a>
+					<% } %>
+				</td>
+				<td>
+					<% if(reports[i].roleReceiver == 0){ %>
+						<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/user/restricted?id=<%= reports[i].idReceiver %>"><%= reports[i].nameReceiver %>
+					<% } else { %>
+						<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/organization/view?id=<%= reports[i].idReceiver %>"><%= reports[i].nameReceiver %>
+					<% } %>
+				</td>
+				<td style="min-width:150px;"><%= reports[i].sentDate.getDate() + "-" + reports[i].sentDate.getMonth() + "-" + reports[i].sentDate.getFullYear() + " " + reports[i].sentDate.getHours() + "h. " + reports[i].sentDate.getMinutes() + "m." %></td>
+				<td><%= reports[i].subject %></td>
+				<td title="<%= reports[i].message %>"><%= cutText(reports[i].message) %></td>
+				<td>
+					<a id="<%= reports[i].id %>" user-id="<%= session.User.id %>" class="btn<% if(reports[i].isRead == false && reports[i].idSender != req.session.User.id){ %> btn-primary read-message<% } else { %> btn-default<% } %>" data-toggle="modal" data-target="#readMessage-<%= reports[i].id %>">Ver todo</a>
+				</td>
+			</tr>
+			<div class="modal fade" id="readMessage-<%= reports[i].id %>" tabindex="-1" role="dialog" aria-labelledby="myLabelMessage-<%= reports[i].id %>" aria-hidden="true">
+		  		<div class="modal-dialog">
+			    	<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+			        		<h4 class="modal-title" id="myLabelMessage-<%= reports[i].id %>">
+			        			Reporte de
+			        			<% if(reports[i].roleSender == 0){ %>
+									<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/user/view/restricted?id=<%= reports[i].idSender %>"><%= reports[i].nameSender %></a>
+								<% } else { %>
+									<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/organization/view?id=<%= reports[i].idSender %>"><%= reports[i].nameSender %></a>
+								<% } %>
+								para 
+								<% if(reports[i].roleReceiver == 0){ %>
+									<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/user/view/restricted?id=<%= reports[i].idReceiver %>"><%= reports[i].nameReceiver %></a>
+								<% } else { %>
+									<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/organization/view?id=<%= reports[i].idReceiver %>"><%= reports[i].nameReceiver %></a>
+								<% } %> 
+								| <%= reports[i].sentDate.getDate() + "-" + reports[i].sentDate.getMonth() + "-" + reports[i].sentDate.getFullYear() + " " + reports[i].sentDate.getHours() + "h. " + reports[i].sentDate.getMinutes() + "m." %>
+			        		</h4>
+			      		</div>
+			      		<div class="modal-body">
+			      			<p>
+								<strong>Asunto:</strong>
+								<br/>
+								<%= reports[i].subject %>
+							</p>
+							<p>
+								<strong>Mensaje:</strong>
+								<br/>
+								<%= reports[i].message %>
+							</p>
+		      			</div>
+		      			<div class="modal-footer">
+				        	<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				     	</div>
+			    	</div>
+		  		</div>
+			</div>
+			<% } %>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+    	var DataTable = jQuery('#reports_table').DataTable({
+    		"language": {
+                "url": "/js/dataTables/sp.lang"
+            },
+            "order": [[ 1, "desc" ]], 
+            "columnDefs": [
+            	{ "targets": 5, "orderable": false }
+            	]
+    	});
+	});
+</script>

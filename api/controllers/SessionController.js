@@ -65,12 +65,12 @@ module.exports = {
               return;
             }
 
+            req.session.authenticated = true;
+            req.session.User = organization;
+
             req.session.flash = {
               success: "Hola "+organization.name+", acabas de iniciar sesión correctamente."
             }
-
-            req.session.authenticated = true;
-            req.session.User = organization;
 
             Message.find({'idReceiver' : organization.id, 'roleReceiver' : organization.rol, 'isRead' : false}, function(err, messages){
               req.session.messagesCounter = messages.length;
@@ -94,12 +94,11 @@ module.exports = {
     				return;
     			}
 
-    			req.session.flash = {
-         	 		success: "Hola "+user.name+", acabas de iniciar sesión correctamente."
-          	}
-
     			req.session.authenticated = true;
     			req.session.User = user;
+          req.session.flash = {
+            success: "Hola "+user.name+", acabas de iniciar sesión correctamente."
+          }
 
           Message.find({'idReceiver' : user.id, 'roleReceiver' : user.rol, 'isRead' : false}, function(err, messages){
             req.session.messagesCounter = messages.length;

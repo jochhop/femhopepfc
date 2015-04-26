@@ -1,4 +1,4 @@
-<div class="cms-page container">
+<div class="cms-page container admin">
 	<ul class="nav nav-tabs" role="tablist">
 		<li class="active">
 			<a>Gestión de usuarios</a>
@@ -10,7 +10,7 @@
 			<a href="/admin/reports">Gestión de reportes</a>
 		</li>
 	</ul>
-	<table class="table table-hover table-admin">
+	<table class="table table-hover table-admin" id="users_table">
 		<thead>
 			<th></th>
 			<th>#</th>
@@ -53,3 +53,17 @@
 		</tbody>
 	</table>
 </div>
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+    	var DataTable = jQuery('#users_table').DataTable({
+    		"language": {
+                "url": "/js/dataTables/sp.lang"
+            },
+            "order": [[ 2, "desc" ]], 
+            "columnDefs": [
+            	{ "targets": 0, "orderable": false },
+            	{ "targets": 6, "orderable": false }
+            	]
+    	});
+	});
+</script>

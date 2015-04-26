@@ -162,7 +162,7 @@ module.exports = {
     }
 
     if(latitude != '' && longitude != ''){
-      Organization.find(function(err, organizations){
+      Organization.find({'accountStatus' : 1}).exec(function(err, organizations){
         var orgNumber = organizations.length;
         var orgList = [];
         var counter = 0;

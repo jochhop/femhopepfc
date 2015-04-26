@@ -620,7 +620,7 @@
 		var orgName = req.param('name');
 
 		if(orgName && orgName != ''){
-			Organization.find({'name' : {'contains' : orgName}}).limit(10).exec(function(err, orgs){
+			Organization.find({'name' : {'contains' : orgName}, 'accountStatus' : 1}).limit(10).exec(function(err, orgs){
 				if(err){
 					return next(err);
 				}
@@ -703,6 +703,16 @@
 		}else{
 			res.redirect('/');
 		}
+	},
+
+	/**
+	* Edit the social networks links from an organization
+	*/
+	'viewall' : function(req, res, next){
+		Organization.find({'accountStatus' : 1}).exec(function organizationList(err, organizations){
+			console.log(organizations);
+			res.view({'organizations' : organizations});
+		});
 	}
 };
 

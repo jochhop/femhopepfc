@@ -8,8 +8,8 @@
 	}
 %>
 <div class="cms-page messages-page container-fluid">
-	<h2>Mensajes</h2>
-	<table class="table table-hover">
+	<h3>Tus mensajes</h3>
+	<table class="table table-hover" id="messages_table">
 		<thead>
 			<th>Tipo</th>
 			<th>De/A</th>
@@ -32,15 +32,15 @@
 				<td>
 					<% if(messages[i].idSender == req.session.User.id) { %>
 						<% if(messages[i].roleReceiver == 0){ %>
-							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/user/restricted?id=<%= messages[i].idReceiver %>"><%= messages[i].nameReceiver %>
+							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/user/restricted?id=<%= messages[i].idReceiver %>"><%= messages[i].nameReceiver %></a>
 						<% } else { %>
-							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/organization/view?id=<%= messages[i].idReceiver %>"><%= messages[i].nameReceiver %>
+							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/organization/view?id=<%= messages[i].idReceiver %>"><%= messages[i].nameReceiver %></a>
 						<% } %>
 					<% }else{ %>
 						<% if(messages[i].roleSender == 0){ %>
-							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/user/restricted?id=<%= messages[i].idSender %>"><%= messages[i].nameSender %>
+							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/user/restricted?id=<%= messages[i].idSender %>"><%= messages[i].nameSender %></a>
 						<% } else { %>
-							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/organization/view?id=<%= messages[i].idSender %>"><%= messages[i].nameSender %>
+							<a title="Ir al perfil de <%= messages[i].nameSender %>" href="/organization/view?id=<%= messages[i].idSender %>"><%= messages[i].nameSender %></a>
 						<% } %>
 					<% } %>
 				</td>		
@@ -116,3 +116,16 @@
 		</tbody>
 	</table>
 </div>
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+    	var DataTable = jQuery('#messages_table').DataTable({
+    		"language": {
+                "url": "/js/dataTables/sp.lang"
+            },
+            "order": [[ 0, "desc" ]], 
+            "columnDefs": [
+            	{ "targets": 6, "orderable": false }
+            	]
+    	});
+	});
+</script>

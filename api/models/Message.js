@@ -61,6 +61,12 @@ module.exports = {
       type: 'boolean',
       required: true,
       defaultsTo: false
+    },
+
+    isReport : {
+      type: 'boolean',
+      required: true,
+      defaultsTo: false
     }
 
   }

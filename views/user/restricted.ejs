@@ -1,5 +1,5 @@
 <div class="cms-page restricted container-fluid">
-	<% if (user.showData){ %>
+	<% if (user.showData || req.session.User.rol > 1){ %>
 	<div class="row form">
         <div class="col-md-3 hidden-xs"></div>
         <div class="col-md-6">
@@ -28,6 +28,9 @@
         				<button title="Enviar un mensaje" class="btn btn-info" data-toggle="modal" data-target="#sendMessage">
 							<span class="glyphicon glyphicon-envelope"></span>
 						</button>
+						<button title="Reportar a este usuario" class="btn btn-danger" data-toggle="modal" data-target="#sendReport">
+							<span class="glyphicon glyphicon-ban-circle"></span>
+						</button>
         			</li>
         		</ul>
         	</div>
@@ -41,7 +44,7 @@
 	        <div class="col-md-6">
 				Este usuario ha restringido sus datos. 
 				Sólo podrá enviarle un mensaje privado si lo desea haciendo click <a href="#" data-toggle="modal" data-target="#sendMessage">aquí</a>.
-				¿Este usuario es sospechoso? repórtalo haciendo click aquí.
+				¿Este usuario es sospechoso? repórtalo haciendo <a data-toggle="modal" data-target="#sendReport">click aquí</a>.
 			</div>
         	<div class="col-md-3 hidden-xs"></div>
     	</div>
@@ -73,6 +76,52 @@
 	                        <div class="form-group">
 	                            <div class="col-sm-offset-3 col-sm-9">
 	                                <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;&nbsp; Enviar mensaje</button>
+	                            </div>
+	                        </div>
+	                        <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+	                        <input type="hidden" name="idReceiver" value="<%= user.id %>" />
+	                        <input type="hidden" name="roleReceiver" value="<%= user.rol %>" />
+	                        <input type="hidden" name="nameReceiver" value="<%= user.name %>" />
+	                        <input type="hidden" name="idSender" value="<%= req.session.User.id %>" />
+	                        <input type="hidden" name="roleSender" value="<%= req.session.User.rol %>" />
+	                        <input type="hidden" name="nameSender" value="<%= req.session.User.name %>" />
+						</div>
+					</div>
+				</form>
+
+  			</div>
+  			<div class="modal-footer">
+	        	<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+	     	</div>
+    	</div>
+	</div>
+</div>
+<div class="modal fade" id="sendReport" tabindex="-1" role="dialog" aria-labelledby="myLabelReport" aria-hidden="true">
+	<div class="modal-dialog">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancelar</span></button>
+        		<h4 class="modal-title" id="myLabelReport">Realizar un reporte a este usuario</h4>
+      		</div>
+      		<div class="modal-body">
+				<form method="POST" action="/report/send" id="sendReportForm">
+					<div class="row form-horizontal">
+						<div class="col-md-12">
+	                        <div class="form-group">
+	                            <label for="number" class="col-sm-3 control-label">Asunto<em>*</em></label>
+	                            <div class="col-sm-9">
+	                                <input type="text" class="form-control input-sm" name="subject" id="reportSubject" placeholder="Asunto*">
+	                            </div>
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="message" class="col-sm-3 control-label">Descripción<em>*</em></label>
+	                            <div class="col-sm-9">
+	                                <textarea class="form-control" id="report" name="message" placeholder="Describe aquí el motivo de tu reporte"></textarea>
+	                            </div>
+	                        </div>
+	                        <div class="form-group">
+	                            <div class="col-sm-offset-3 col-sm-9">
+	                                <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;&nbsp; Enviar reporte</button>
 	                            </div>
 	                        </div>
 	                        <input type="hidden" name="_csrf" value="<%= _csrf %>" />

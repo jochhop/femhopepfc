@@ -64,6 +64,24 @@ module.exports = {
 		}
 	},
 
+	/*
+	* Load all the reports for the administration
+	*/
+	'reports' : function(req, res, next){
+
+		if(req.session.User && req.session.User.rol > 1){
+			Message.find({'isReport' : true}).exec(function(err, reports){
+				if(err){
+					return next(err);
+				}
+
+				res.view('admin/reports', { layout : 'layoutadmin', reports : reports });
+			});
+		}else{
+			res.redirect('/');
+		}
+	},
+
 	/**
 	* Create a new admin, used only once
 	*/

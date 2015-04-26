@@ -34,6 +34,11 @@
 					<span class="glyphicon glyphicon-globe"></span> Sede principal
 				</a>
 			<% } %>
+			<% if(req.session.User && req.session.User.id != organization.id){ %>
+				<button title="Reporta esta organización" class="btn btn-danger" data-toggle="modal" data-target="#sendReport">
+					<span class="glyphicon glyphicon-ban-circle"></span>
+				</button>
+			<% } %>
 		</div>
 	</div>
 	<div class="org-body row">
@@ -262,13 +267,62 @@
 	  		</div>
 		</div>
 	<% } %>
-	<% if(req.session.User && req.session.User.id == organization.id){ %>
-		<div class="modal fade" id="editSocial" tabindex="-1" role="dialog" aria-labelledby="myLabelMessage" aria-hidden="true">
+	<% if(req.session.User && req.session.User.id != organization.id){ %>
+		<div class="modal fade" id="sendReport" tabindex="-1" role="dialog" aria-labelledby="myLabelReport" aria-hidden="true">
 	  		<div class="modal-dialog">
 		    	<div class="modal-content">
 		      		<div class="modal-header">
 		        		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancelar</span></button>
-		        		<h4 class="modal-title" id="myLabelMessage">Tus redes sociales</h4>
+		        		<h4 class="modal-title" id="myLabelReport">Realizar un reporte</h4>
+		      		</div>
+		      		<div class="modal-body">
+						<form method="POST" action="/report/send" id="sendReportForm">
+							<div class="row form-horizontal">
+								<div class="col-md-12">
+			                        <div class="form-group">
+			                            <label for="number" class="col-sm-3 control-label">Asunto<em>*</em></label>
+			                            <div class="col-sm-9">
+			                                <input type="text" class="form-control input-sm" name="subject" id="reportSubject" placeholder="Asunto*">
+			                            </div>
+			                        </div>
+			                        <div class="form-group">
+			                            <label for="message" class="col-sm-3 control-label">Descripción<em>*</em></label>
+			                            <div class="col-sm-9">
+			                                <textarea class="form-control" id="report" name="message" placeholder="Describe aquí el motivo de tu reporte"></textarea>
+			                            </div>
+			                        </div>
+			                        <div class="form-group">
+			                            <div class="col-sm-offset-3 col-sm-9">
+			                                <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;&nbsp; Enviar reporte</button>
+			                            </div>
+			                        </div>
+			                        <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+			                        <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+			                        <input type="hidden" name="idReceiver" value="<%= organization.id %>" />
+			                        <input type="hidden" name="roleReceiver" value="<%= organization.rol %>" />
+			                        <input type="hidden" name="nameReceiver" value="<%= organization.name %>" />
+			                        <input type="hidden" name="idSender" value="<%= req.session.User.id %>" />
+			                        <input type="hidden" name="roleSender" value="<%= req.session.User.rol %>" />
+			                        <input type="hidden" name="nameSender" value="<%= req.session.User.name %>" />
+								</div>
+							</div>
+						</form>
+
+	      			</div>
+	      			<div class="modal-footer">
+			        	<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+			     	</div>
+		    	</div>
+	  		</div>
+		</div>
+	<% } %>
+	<% if(req.session.User && req.session.User.id == organization.id){ %>
+		<div class="modal fade" id="editSocial" tabindex="-1" role="dialog" aria-labelledby="myLabelSocial" aria-hidden="true">
+	  		<div class="modal-dialog">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancelar</span></button>
+		        		<h4 class="modal-title" id="myLabelSocial">Tus redes sociales</h4>
 		      		</div>
 		      		<div class="modal-body">
 						<form method="POST" action="/organization/editsocial" id="editSocialForm">

@@ -1,0 +1,42 @@
+<div class="cms-page all-organizations-page container-fluid">
+	<h1>Todas las organizaciones</h1>
+	<table class="table table-hover" id="organizations_table">
+		<thead>
+			<th></th>
+			<th>Nombre</th>
+			<th>Nif</th>
+			<th>Teléfono</th>
+			<th>Email</th>
+			<th>Dirección</th>
+			<th>Opciones</th>
+		</thead>
+		<tbody>
+			<% var organizationsLength = organizations.length;  %>
+			<% for(var i = 0 ; i < organizationsLength ; i++){ %>
+				<tr>
+					<td><img src="/images/<%= organizations[i].avatar %>" alt="Organization photo" class="img-circle img-small" /></td>
+					<td><%= organizations[i].name %></td>
+					<td><%= organizations[i].nif %></td>
+					<td><%= organizations[i].requiredPhone %></td>
+					<td><%= organizations[i].email %></td>
+					<td><%= organizations[i].address + " " + organizations[i].number + ", " + organizations[i].city + " (" + organizations[i].province + ")" + " - " + organizations[i].postalCode %></td>
+					<td><a href="/organization/view?id=<%= organizations[i].id %>" >Ir al perfil</a></td>
+				</tr>
+			<% } %>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+    	var DataTable = jQuery('#organizations_table').DataTable({
+    		"language": {
+                "url": "/js/dataTables/sp.lang"
+            },
+            "order": [[ 1, "desc" ]], 
+            "columnDefs": [
+            	{ "targets": 0, "orderable": false },
+            	{ "targets": 6, "orderable": false }
+            	]
+    	});
+	});
+</script>

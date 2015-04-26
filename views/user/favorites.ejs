@@ -1,16 +1,16 @@
-<div class="cms-page favorites-page container-fluid">
+<div class="cms-page favorites-page container-fluid user">
 	<ul class="nav nav-tabs" role="tablist">
 		<li>
-			<a href="/user/view?id=<%= user.id %>">Datos</a>
+			<a href="/user/view?id=<%= req.session.User.id %>">Datos</a>
 		</li>
 		<li class="active">
 			<a>Favoritos</a>
 		</li>
 		<li>
-			<a href="/">Mensajes</a>
+			<a href="/user/messages?id=<%= req.session.User.id %>">Mensajes</a>
 		</li>
 	</ul>
-	<table class="table table-hover table-admin">
+	<table class="table table-hover table-admin" id="favorites_table">
 		<thead>
 			<th></th>
 			<th>Nombre</th>
@@ -37,3 +37,17 @@
 		</tbody>
 	</table>
 </div>
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+    	var DataTable = jQuery('#favorites_table').DataTable({
+    		"language": {
+                "url": "/js/dataTables/sp.lang"
+            },
+            "order": [[ 1, "desc" ]], 
+            "columnDefs": [
+            	{ "targets": 0, "orderable": false },
+            	{ "targets": 4, "orderable": false }
+            	]
+    	});
+	});
+</script>
