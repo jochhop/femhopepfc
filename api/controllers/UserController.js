@@ -451,16 +451,21 @@ module.exports = {
     * Renders the messages list
     */
     'messages' : function(req, res, next){
-        if(req.session.User && req.session.User.rol == 2 || req.session.User.id == req.param('id')){
-            Message.find({$or : [{'idSender' : req.param('id'), 'roleSender' : 0}, {'idReceiver' : req.param('id'), 'roleReceiver' : 0}]}).sort([['sentDate', 1]]).exec(function foundMessages(err, messages){
+        if(req.session.User && req.session.User.id == req.param('id')){
+            User.findOne(req.param('id'), function foundUser(err, user){
                 if(err) return next(err);
-                res.view({
-                    messages : messages
-                });
+                if(!user) return next();
 
+                Message.find({$or : [{'idSender' : req.param('id'), 'roleSender' : 0}, {'idReceiver' : req.param('id'), 'roleReceiver' : 0}]}).sort([['sentDate', 1]]).exec(function foundMessages(err, messages){
+                    if(err) return next(err);
+                    res.view({
+                        messages : messages,
+                        user : user
+                    });
+
+                });
             });
         }else{
-            console.log("no pasa elif");
             req.session.flash = {
                 error: "No tienes permisos para realizar esta acción."
             }
@@ -468,6 +473,9 @@ module.exports = {
         }
     },
 
+    /**
+    * Changes the status account to enabled
+    */
     'enable/account' : function(req, res, next){
         if(req.session && req.session.User.rol > 1){
             User.findOne(req.param('id'), function foundOrganization(err, user){
@@ -487,6 +495,9 @@ module.exports = {
         }
     },
 
+    /**
+    * Changes the status account to disabled
+    */
     'disable/account' : function(req, res, next){
         if(req.session && req.session.User.rol > 1){
             User.findOne(req.param('id'), function foundOrganization(err, user){

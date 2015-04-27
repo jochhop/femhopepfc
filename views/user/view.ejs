@@ -6,9 +6,11 @@
 		<li>
 			<a href="/user/favorites?id=<%= user.id %>">Favoritos</a>
 		</li>
+        <% if(user.id == req.session.User.id){ %>
 		<li>
 			<a href="/user/messages?id=<%= user.id %>">Mensajes</a>
 		</li>
+        <% } %>
 	</ul>
 	<form method="POST" action="/user/update" id="editUserForm" enctype="multipart/form-data">
 		<div class="row form-horizontal">

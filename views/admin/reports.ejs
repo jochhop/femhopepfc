@@ -33,14 +33,14 @@
 			<tr id="td-<%= reports[i].id %>">
 				<td>
 					<% if(reports[i].roleSender == 0){ %>
-						<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/user/restricted?id=<%= reports[i].idSender %>"><%= reports[i].nameSender %></a>
+						<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/user/view?id=<%= reports[i].idSender %>"><%= reports[i].nameSender %></a>
 					<% } else { %>
 						<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/organization/view?id=<%= reports[i].idSender %>"><%= reports[i].nameSender %></a>
 					<% } %>
 				</td>
 				<td>
 					<% if(reports[i].roleReceiver == 0){ %>
-						<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/user/restricted?id=<%= reports[i].idReceiver %>"><%= reports[i].nameReceiver %>
+						<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/user/view?id=<%= reports[i].idReceiver %>"><%= reports[i].nameReceiver %>
 					<% } else { %>
 						<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/organization/view?id=<%= reports[i].idReceiver %>"><%= reports[i].nameReceiver %>
 					<% } %>
@@ -60,13 +60,13 @@
 			        		<h4 class="modal-title" id="myLabelMessage-<%= reports[i].id %>">
 			        			Reporte de
 			        			<% if(reports[i].roleSender == 0){ %>
-									<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/user/view/restricted?id=<%= reports[i].idSender %>"><%= reports[i].nameSender %></a>
+									<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/user/view?id=<%= reports[i].idSender %>"><%= reports[i].nameSender %></a>
 								<% } else { %>
 									<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/organization/view?id=<%= reports[i].idSender %>"><%= reports[i].nameSender %></a>
 								<% } %>
 								para 
 								<% if(reports[i].roleReceiver == 0){ %>
-									<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/user/view/restricted?id=<%= reports[i].idReceiver %>"><%= reports[i].nameReceiver %></a>
+									<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/user/view?id=<%= reports[i].idReceiver %>"><%= reports[i].nameReceiver %></a>
 								<% } else { %>
 									<a title="Ir al perfil de <%= reports[i].nameSender %>" href="/organization/view?id=<%= reports[i].idReceiver %>"><%= reports[i].nameReceiver %></a>
 								<% } %> 

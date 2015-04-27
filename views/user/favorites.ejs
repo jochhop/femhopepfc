@@ -1,14 +1,16 @@
 <div class="cms-page favorites-page container-fluid user">
 	<ul class="nav nav-tabs" role="tablist">
 		<li>
-			<a href="/user/view?id=<%= req.session.User.id %>">Datos</a>
+			<a href="/user/view?id=<%= user.id %>">Datos</a>
 		</li>
 		<li class="active">
 			<a>Favoritos</a>
 		</li>
+		<% if(user.id == req.session.User.id){ %>
 		<li>
-			<a href="/user/messages?id=<%= req.session.User.id %>">Mensajes</a>
+			<a href="/user/messages?id=<%= user.id %>">Mensajes</a>
 		</li>
+		<% } %>
 	</ul>
 	<table class="table table-hover table-admin" id="favorites_table">
 		<thead>
