@@ -70,6 +70,13 @@
 							<% } %>
 						</h2>
 					</li>
+					<% if(organization.web != undefined) { %>
+						<li class="list-group-item center">
+							<a target="_blank" href="<%= organization.web %>">
+								<img class="social-image" src="/images/web.png" title="Web oficial" />
+							</a>
+						</li>
+					<% } %>
 					<% if(organization.facebook != undefined) { %>
 						<li class="list-group-item center">
 							<a target="_blank" href="<%= organization.facebook %>">
@@ -328,6 +335,12 @@
 						<form method="POST" action="/organization/editsocial" id="editSocialForm">
 							<div class="row form-horizontal">
 								<div class="col-md-12">
+									<div class="form-group">
+			                            <label for="web" class="col-sm-3 control-label">Web oficial</label>
+			                            <div class="col-sm-9">
+			                                <input type="text" class="form-control input-sm" name="web" id="web" placeholder="Link web oficial" value="<%= organization.web != undefined ? organization.web : '' %>" />
+			                            </div>
+			                        </div>
 			                        <div class="form-group">
 			                            <label for="facebbok" class="col-sm-3 control-label">Facebook</label>
 			                            <div class="col-sm-9">

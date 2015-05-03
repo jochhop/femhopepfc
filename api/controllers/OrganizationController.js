@@ -684,10 +684,12 @@
 
 				if(!organization) return next();
 
+				var web = req.param('web');
 				var facebook = req.param('facebook');
 				var twitter = req.param('twitter');
 				var googleplus = req.param('googleplus');
 
+				organization.web = web ? web : undefined;
 				organization.facebook = facebook ? facebook : undefined;
 				organization.twitter = twitter ? twitter : undefined;
 				organization.googleplus = googleplus ? googleplus : undefined;

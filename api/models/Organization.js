@@ -138,6 +138,10 @@ module.exports = {
       type : 'string'
     },
 
+    web : {
+      type : 'string' 
+    },
+
     twitter : {
       type : 'string'
     },
