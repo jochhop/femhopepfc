@@ -109,10 +109,12 @@ module.exports = {
 	* Get unread messages for the current user
 	*/
 	'counter' : function(req, res){
-		Message.find({'idReceiver' : req.session.User.id, 'roleReceiver' : req.session.User.rol, 'isRead' : false}, function(err, messages){
-			req.session.messagesCounter = messages.length;
-			res.send({'status' : 'ok', 'messagesCounter' : messages.length});
-		});
+		if(req.session.User && req.session.User.rol < 2){
+			Message.find({'idReceiver' : req.session.User.id, 'roleReceiver' : req.session.User.rol, 'isRead' : false}, function(err, messages){
+				req.session.messagesCounter = messages.length;
+				res.send({'status' : 'ok', 'messagesCounter' : messages.length});
+			});
+		}
 	}
 };
 
