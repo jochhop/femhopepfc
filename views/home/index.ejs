@@ -72,9 +72,8 @@
 jQuery(document).ready(function(){
 
 	if(navigator.geolocation){
-	console.log("here2");
 		navigator.geolocation.getCurrentPosition(function(position) {
-		console.log("here1");
+		console.log(position);
 			lat = position.coords.latitude;
 			long = position.coords.longitude;
 			jQuery.ajax({
@@ -83,6 +82,7 @@ jQuery(document).ready(function(){
 				data: { 'latitude': lat, 'longitude': long }
 			})
 			.done(function( data ) {
+			console.log(data);
 				processMaps( data );
 			});
 		}, function(error){
@@ -104,7 +104,6 @@ jQuery(document).ready(function(){
 			});
 		}); 
 	}else{
-	console.log("here2");
 		<% if(req.session && req.session.User && req.session.User.rol == 1){ %>
 			lat = <%= req.session.User.latitude %>;
 			long = <%= req.session.User.longitude %>;
@@ -156,6 +155,7 @@ jQuery(document).ready(function(){
 					strokeWeight: 6
 				});
 				map.fitZoom();
+				jQuery('#info'+i).attr('style', 'background-image:url("../images/'+orgs[i]['organization']['avatar']+'");background-repeat:no-repeat;background-position:right;background-size:75px;');
 				jQuery('#info'+i+' .org-tile-name').html('<a href="organization/view?id='+orgs[i]['organization']['id']+'">'+orgs[i]['organization']['name']+'</a>');
 				jQuery('#info'+i+' .org-tile-phone').text(orgs[i]['organization']['requiredPhone']);
 				jQuery('#info'+i+' .org-tile-email').html('<a href="mailto:'+orgs[i]['organization']['email']+'" >'+orgs[i]['organization']['email']+'</a>');

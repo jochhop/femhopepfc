@@ -177,6 +177,11 @@ label{
 	padding: 10px;
 	padding-top: 0px;
 }
+.org-tiles a{
+	text-shadow:1px 1px 0px white;
+	-webkit-text-shadow: 1px 1px 0px white;
+	-moz-text-shadow: 1px 1px 0px white;
+}
 /*%%%%%%%%%%%%%%%%%%%%%%%*/
 .register-page{
 	/*background-color: #5B9CA2;*/

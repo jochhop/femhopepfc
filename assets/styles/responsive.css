@@ -1,0 +1,25 @@
+@media (max-width: 767px){
+	#searchBar .collapse{
+		display: block;
+	}
+	#autocompleteBlock{
+		width: 96%;
+	}
+}
+@media (max-width: 520px){
+	.org-name{
+		font-size:28px;
+		top: -25px;
+		right: 10px;
+	}
+	.org-services{
+		font-size: 18px;
+		top:12px;
+		right: 10px;
+	}
+	#org-avatar{
+		left: 15px;
+		top: 125px;
+		width: 100px;
+	}
+}
