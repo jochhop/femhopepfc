@@ -42,7 +42,7 @@
 		</div>
 	</div>
 	<div class="org-body row">
-		<div class="col-md-8">
+		<div class="col-md-5">
 			<ul class="list-group tile">
 				<li class="list-group-item tile-title" title="Dirección">
 					<h2>Información de contacto</h2>
@@ -57,12 +57,22 @@
 			</ul>
 		</div>
 		<div class="col-md-4">
+			<ul class="list-group tile map">
+				<li class="list-group-item tile-title">
+					<h2>Mapa interactivo</h2>
+				</li>
+				<li class="list-group">
+					<div class="mini-map" id="map"></div>
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-3">
 			<% 
-				if(	organization.twitter != undefined || organization.facebook != undefined || organization.googleplus != undefined
+				if((organization.web != undefined || organization.twitter != undefined || organization.facebook != undefined || organization.googleplus != undefined)
 				|| (req.session.User && req.session.User.rol == 1 && organization.id == req.session.User.id)){ 
 			%>
 				<ul class="list-group tile">
-					<li class="list-group-item tile-title" title="Dirección">
+					<li class="list-group-item tile-title">
 						<h2>
 							Más información en 
 							<% if(req.session.User && req.session.User.rol == 1 && organization.id == req.session.User.id){ %>
@@ -378,3 +388,77 @@
 		</div>
 	<% } %>
 </div>
+<script type="text/javascript">
+/**
+	Loading organization's map on the organization view
+*/
+jQuery(document).ready(function(){
+	if(navigator.geolocation){
+		navigator.geolocation.getCurrentPosition(function(position) {
+			<% if(req.session && req.session.User && req.session.User.rol < 2){ %>
+				lat = <%= req.session.User.latitude %>;
+				long = <%= req.session.User.longitude %>;
+			<% } else { %>
+				lat = position.coords.latitude;
+				long = position.coords.longitude;
+			<% } %>
+
+			processMap( lat, long );
+
+		}, function(error){
+			<% if(req.session && req.session.User && req.session.User.rol < 2){ %>
+				lat = <%= req.session.User.latitude %>;
+				long = <%= req.session.User.longitude %>;
+			<% } else { %>
+				alert("Los mapas generados no representan una ruta real. Por favor, permita a su navegador obtener su ubicación o, si es un usuario registrado, inicie sesión para actualizar los mapas.");
+				lat = 0;
+				long = 0;
+			<% } %>
+
+			processMap( lat, long );
+		}); 
+	}else{
+		<% if(req.session && req.session.User && req.session.User.rol == 1){ %>
+			lat = <%= req.session.User.latitude %>;
+			long = <%= req.session.User.longitude %>;
+		<% } else { %>
+			lat = 0;
+			long = 0;
+		<% } %>
+
+		processMap( lat, long );
+	}
+
+	function processMap(latitude, longitude){
+		var map;
+		map = new GMaps({
+			div: '#map',
+			lat: <%= organization.latitude %>,
+			lng: <%= organization.longitude %>
+		});
+		map.addMarker({
+			lat: <%= organization.latitude %>,
+			lng: <%= organization.longitude %>,
+			infoWindow: {
+				content : '<%= organization.address %>+" "+<%= organization.number %>+", "+<%= organization.city %>+", "+<%= organization.postalCode %>' 
+			}
+		});
+		map.addMarker({
+			lat: latitude,
+			lng: longitude,
+			infoWindow: {
+				content : "Tu posición" 
+			}
+		});
+		map.drawRoute({
+			origin: [latitude, longitude],
+			destination: [<%= organization.latitude %>, <%= organization.longitude %>],
+			travelMode: 'driving',
+			strokeColor: '#131540',
+			strokeOpacity: 0.6,
+			strokeWeight: 6
+		});
+		map.fitZoom();
+	}
+});
+</script>

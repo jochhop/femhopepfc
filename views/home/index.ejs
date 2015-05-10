@@ -73,7 +73,6 @@ jQuery(document).ready(function(){
 
 	if(navigator.geolocation){
 		navigator.geolocation.getCurrentPosition(function(position) {
-		console.log(position);
 			lat = position.coords.latitude;
 			long = position.coords.longitude;
 			jQuery.ajax({
@@ -82,7 +81,6 @@ jQuery(document).ready(function(){
 				data: { 'latitude': lat, 'longitude': long }
 			})
 			.done(function( data ) {
-			console.log(data);
 				processMaps( data );
 			});
 		}, function(error){

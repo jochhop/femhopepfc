@@ -112,6 +112,7 @@ label{
 	position: absolute;
 	width: 212px;
 	z-index: 99;
+	right:15px;
 }
 #autocompleteBlock li{
 	cursor: pointer;
@@ -282,6 +283,10 @@ label{
 }
 .org-body .tile-title{
 	margin-bottom: 0px;
+}
+.org-body .tile.map li{
+	list-style: none;
+	margin:0px;
 }
 .list-group-item.center{
 	text-align: center;
