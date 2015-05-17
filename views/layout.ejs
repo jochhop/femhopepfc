@@ -59,7 +59,7 @@
     <script src="/js/masks.js"></script>
     <script src="/js/validator.js"></script>
     <!--SCRIPTS END-->
-    <% if(req.session.User && req.session.User != 2){ %>
+    <% if(session.User && session.User != 2){ %>
       <script type="text/javascript">
           var getMessagesCounter = function() {
               console.log("Request");
@@ -181,19 +181,15 @@
           </form>
       </div>
     </nav>
-    <!-- Global messages --> 
-    <% if(req.session.flash != undefined && req.session.flash.err){ %>
-    <ul class="list-group messages">
-    <% Object.keys(req.session.flash.err).forEach(function(error){ %>
-        <li class="list-group-item list-group-item-danger"><%= JSON.stringify(req.session.flash.err[error]) %></li>
-    <% }) %>
-    </ul>
+    <!-- Global messages -->
+    <% if(typeof flash != 'undefined' && flash.error){ %>
+        <div class="alert alert-danger messages"><%= flash.error %></div>
     <% } %>
-    <% if(req.session.flash != undefined && req.session.flash.success){ %>
-        <div class="alert alert-success messages"><%= req.session.flash.success %></div>
+    <% if(typeof flash != 'undefined' && flash.success){ %>
+        <div class="alert alert-success messages"><%= flash.success %></div>
     <% } %>
-    <% if(req.session.flash != undefined && req.session.flash.info){ %>
-        <div class="alert alert-info messages"><%= req.session.flash.info %></div>
+    <% if(typeof flash != 'undefined' && flash.info){ %>
+        <div class="alert alert-info messages"><%= flash.info %></div>
     <% } %>
     
     <%- body %>

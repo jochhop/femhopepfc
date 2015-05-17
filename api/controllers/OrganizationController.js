@@ -86,7 +86,7 @@
 					console.log(err);
 
 					req.session.flash = {
-						err: err
+						error: "No se pudo crear la organización."
 					}                    
 
 					return res.redirect('/');
@@ -164,7 +164,7 @@
 					console.log(err);
 
 					req.session.flash = {
-						err: err
+						error: "No se pudo crear la suborganización."
 					}                    
 
 					return res.redirect('/');
@@ -712,7 +712,6 @@
 	*/
 	'viewall' : function(req, res, next){
 		Organization.find({'accountStatus' : 1}).exec(function organizationList(err, organizations){
-			console.log(organizations);
 			res.view({'organizations' : organizations});
 		});
 	}

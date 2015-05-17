@@ -31,10 +31,9 @@ module.exports = {
    * @return void
    */
   'create' : function(req, res, next){
-
   	if(!req.param('email') || !req.param('password')){
   		req.session.flash = {
-  			err : [{name: 'userEmailPasswordRequired', message: 'Debe introducir un email y contraseña válidos.'}]
+  			error : 'Debe introducir un email y contraseña válidos.'
   		}
   		
   		res.redirect('/');
@@ -48,7 +47,7 @@ module.exports = {
         Organization.findOneByEmail(req.param('email')).exec(function(err, organization){
           if(!organization){
       			req.session.flash = {
-      				err : [{name: 'userNotFound', message: 'El email introducido no se encuentra registrado.'}]
+      				error : 'El email introducido no se encuentra registrado.'
       			}
 
       			res.redirect('/');
@@ -58,7 +57,7 @@ module.exports = {
           require('bcrypt').compare(req.param('password'), organization.password, function(err, valid){
             if(!valid){
               req.session.flash = {
-                err : [{name: 'invalidPassword', message: 'La contraseña introducida no es correcta.'}]
+                error : 'La contraseña introducida no es correcta.'
               }
 
               res.redirect('/');
@@ -87,7 +86,7 @@ module.exports = {
     		require('bcrypt').compare(req.param('password'), user.password, function(err, valid){
     			if(!valid){
     				req.session.flash = {
-    					err : [{name: 'invalidPassword', message: 'La contraseña introducida no es correcta.'}]
+    					error : 'La contraseña introducida no es correcta.'
     				}
 
     				res.redirect('/');
@@ -122,7 +121,7 @@ module.exports = {
 
     if(!req.param('email') || !req.param('password')){
       req.session.flash = {
-        err : [{name: 'userEmailPasswordRequired', message: 'Debe introducir un email y contraseña válidos.'}]
+        error: 'Debe introducir un email y contraseña válidos.'
       }
       
       res.redirect('/');
@@ -137,7 +136,7 @@ module.exports = {
           if(!valid){
             console.log("Administrator not loged.");
             req.session.flash = {
-              err : [{name: 'invalidPassword', message: 'La contraseña introducida no es correcta.'}]
+              error : 'La contraseña introducida no es correcta.'
             }
 
             res.redirect('/admin');
@@ -160,7 +159,7 @@ module.exports = {
         console.log("Not admin found.");
 
         req.session.flash = {
-          err : [{name: 'errorAdminData', message: 'Acceso denegado.'}]
+          error : 'Acceso denegado.'
         }
 
         res.redirect('/admin');

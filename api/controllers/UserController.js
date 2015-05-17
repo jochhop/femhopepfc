@@ -53,7 +53,6 @@ module.exports = {
     'create' : function(req, res, next){
         var todayDate = Date();
         var uploadFile = req.file('avatar');
-        console.log(req.param('email'));
 
         uploadFile.upload({dirname : UPLOAD_PATH}, function onUploadComplete (err, files) {                                                         
 
@@ -89,7 +88,7 @@ module.exports = {
                     console.log(err);
 
                     req.session.flash = {
-                        err: err
+                        error: "No se ha podido crear el usuario."
                     }                    
 
                     return res.redirect('/');
