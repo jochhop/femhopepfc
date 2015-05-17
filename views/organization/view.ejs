@@ -205,13 +205,13 @@
 		                        <div class="form-group">
 		                            <label for="requiredPhone" class="col-sm-3 control-label">Teléfono<em>*</em></label>
 		                            <div class="col-sm-9">
-		                                <input type="text" class="form-control input-sm phone" id="requiredPhone" name="requiredPhone" placeholder="Teléfono oficial*"  value="<%= organization.requiredPhone %>">
+		                                <input type="tel" class="form-control input-sm phone" id="requiredPhone" name="requiredPhone" placeholder="Teléfono oficial*"  value="<%= organization.requiredPhone %>">
 		                            </div>
 		                        </div>
 		                        <div class="form-group">
 		                            <label for="extraPhone" class="col-sm-3 control-label">Otro tlf.</label>
 		                            <div class="col-sm-9">
-		                                <input type="text" class="form-control input-sm phone" id="extraPhone" name="extraPhone" placeholder="Otro"  value="<%= organization.extraPhone %>">
+		                                <input type="tel" class="form-control input-sm phone" id="extraPhone" name="extraPhone" placeholder="Otro"  value="<%= organization.extraPhone %>">
 		                                <span class="help-block">
 		                                    <button type="button" class="btn btn-link popover-dismiss" data-toggle="popover" data-placement="top" title="Información sobre los teléfonos" data-content="En el primer campo debe introducir un teléfono con el cual podamos contactar con usted siempre que sea posible. El segundo campo es opcional y sólo se usará en caso de que no podamos localizarle con el primero.">Más información sobre los teléfonos</button>
 		                                </span>
