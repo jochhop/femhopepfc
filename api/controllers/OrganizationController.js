@@ -708,10 +708,12 @@
 	},
 
 	/**
-	* Edit the social networks links from an organization
+	* Return the list of the actives organizations registered on our system
 	*/
 	'viewall' : function(req, res, next){
 		Organization.find({'accountStatus' : 1}).exec(function organizationList(err, organizations){
+			if(err) return next(err);
+
 			res.view({'organizations' : organizations});
 		});
 	}
