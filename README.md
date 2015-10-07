@@ -1,3 +1,1 @@
-# aux
-
-a [Sails](http://sailsjs.org) application
+# Sails application which make easier the contact with victims of bad-treatment and organizations.
